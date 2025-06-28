@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const sessionSchema = mongoose.Schema(
+const exerciseSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     informations: { type: String, default: '' },
@@ -12,4 +12,4 @@ const sessionSchema = mongoose.Schema(
   { timestamps: true },
 );
 
-module.exports = mongoose.model('Session', sessionSchema);
+module.exports = mongoose.model('Exercise', exerciseSchema);

@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const MONGO_URI = process.env.MONGO_URI;
 
-const sessionsRoutes = require('./routes/sessions');
+const exercisesRoutes = require('./routes/exercises');
 const userRoutes = require('./routes/user');
 
 mongoose
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/sessions', sessionsRoutes);
+app.use('/api/exercises', exercisesRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
