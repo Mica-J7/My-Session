@@ -1,8 +1,10 @@
 require('dotenv').config();
-const MONGO_URI = process.env.MONGO_URI;
 const express = require('express');
 const mongoose = require('mongoose');
+const MONGO_URI = process.env.MONGO_URI;
+
 const sessionsRoutes = require('./routes/sessions');
+const userRoutes = require('./routes/user');
 
 mongoose
   .connect(MONGO_URI)
@@ -24,5 +26,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/sessions', sessionsRoutes);
+app.use('/api/auth', userRoutes);
 
 module.exports = app;
