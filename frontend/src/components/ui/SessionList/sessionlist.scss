@@ -6,9 +6,28 @@
   &__title {
     margin-top: 0;
   }
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #45a049; // un vert un peu plus foncé au survol
+    }
+    &--icon {
+      font-size: 20px;
+    }
+  }
   &__grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 50px;
+    gap: 20px;
   }
 }

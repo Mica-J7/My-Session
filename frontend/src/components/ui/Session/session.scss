@@ -12,5 +12,27 @@
     grid-gap: 20px;
     grid-auto-rows: minmax(100px, auto);
     justify-content: center;
+    align-items: center;
+    &-button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      height: 100px;
+      transition: background-color 0.3s ease;
+      &:hover {
+        background-color: #3a8a3e;
+      }
+      &--icon {
+        font-size: 30px;
+      }
+    }
   }
 }
