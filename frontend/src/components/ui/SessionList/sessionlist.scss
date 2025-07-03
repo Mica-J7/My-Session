@@ -1,0 +1,14 @@
+.session-list {
+  padding: 20px;
+  background-color: blanchedalmond;
+  border-radius: 20px;
+  box-sizing: border-box;
+  &__title {
+    margin-top: 0;
+  }
+  &__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+  }
+}

@@ -1,0 +1,19 @@
+.exercise {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: antiquewhite;
+  &__title {
+    margin: 0 5px 10px 5px;
+    white-space: nowrap;
+  }
+  &__content p {
+    margin: 7px;
+    white-space: nowrap;
+  }
+  &__content--note {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #888;
+    font-style: italic;
+  }
+}

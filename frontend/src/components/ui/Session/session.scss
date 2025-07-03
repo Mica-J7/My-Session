@@ -1,0 +1,16 @@
+.session {
+  width: 100%;
+  padding: 10px 20px 20px 20px;
+  border-radius: 10px;
+  background-color: azure;
+  &__title {
+    margin: 0 0 10px 0;
+  }
+  &__exercises {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+    grid-auto-rows: minmax(100px, auto);
+    justify-content: center;
+  }
+}

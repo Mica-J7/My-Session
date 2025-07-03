@@ -1,0 +1,13 @@
+.app-container {
+  max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  margin: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
