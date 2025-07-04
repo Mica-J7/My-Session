@@ -1,0 +1,48 @@
+.session-creator__overlay {
+  background: transparent; // pas de fond sombre
+  position: fixed;
+  inset: 0;
+}
+
+.session-creator {
+  position: absolute;
+  top: 4.5rem; // ajuste selon ton bouton
+  right: 2rem; // ou left, selon la position du bouton
+  background: #fff;
+  padding: 1rem;
+  width: 250px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    button {
+      flex: 1;
+      padding: 0.4rem;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #f0f0f0;
+
+      &:hover {
+        background-color: #ddd;
+      }
+    }
+  }
+}
