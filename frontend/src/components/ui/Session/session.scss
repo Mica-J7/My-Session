@@ -14,21 +14,20 @@
     justify-content: center;
     align-items: center;
     &-button {
-      background-color: #4caf50;
+      background-color: #1bad20;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 20px 20px 10px 3px;
       font-size: 1rem;
-      font-weight: bold;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       transition: background-color 0.3s ease;
       &:hover {
-        background-color: #3a8a3e;
+        background-color: #137516;
       }
       &--icon {
         font-size: 30px;

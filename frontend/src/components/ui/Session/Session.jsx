@@ -1,118 +1,51 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import ExerciseCreator from '../Modal/ExerciseCreator.jsx';
+import Exercise from '../Exercise/Exercise.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './session.scss';
-import Exercise from '../Exercise/Exercise.jsx';
 
-function Session({ name }) {
-  const [exercises, setExercises] = useState([]);
-  const [showForm, setShowForm] = useState(false);
+const MODAL_HEIGHT = 400;
 
-  const [newExercise, setNewExercise] = useState({
-    name: '',
-    sets: '',
-    reps: '',
-    weight: '',
-    rest: '',
-    time: '',
-    distance: '',
-    note: '',
-  });
+function Session({ session, onAddExercise }) {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalPosition, setModalPosition] = useState({ top: 100, left: 100 });
+  const buttonRef = useRef(null);
 
-  const handleAddExercise = () => {
-    const exerciseToAdd = {
-      id: Date.now(),
-      ...newExercise,
-    };
-    setExercises([...exercises, exerciseToAdd]);
+  const openModal = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setModalPosition({
+        top: rect.top + rect.height / 2 - MODAL_HEIGHT / 2 + window.scrollY,
+        left: rect.left + rect.width + 16,
+      });
+    }
+    setModalIsOpen(true);
+  };
 
-    setNewExercise({
-      name: '',
-      sets: '',
-      reps: '',
-      weight: '',
-      rest: '',
-      time: '',
-      distance: '',
-      note: '',
-    });
-    setShowForm(false);
+  const handleAdd = (exerciseData) => {
+    onAddExercise(session.id, exerciseData);
   };
 
   return (
     <div className="session">
-      <h3 className="session__title">{name}</h3>
-
-      {showForm && (
-        <form
-          className="session__form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleAddExercise();
-          }}
-        >
-          <input
-            type="text"
-            placeholder="Name"
-            value={newExercise.name}
-            onChange={(e) => setNewExercise({ ...newExercise, name: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Sets"
-            value={newExercise.sets}
-            onChange={(e) => setNewExercise({ ...newExercise, sets: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Reps"
-            value={newExercise.reps}
-            onChange={(e) => setNewExercise({ ...newExercise, reps: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Weight (kg)"
-            value={newExercise.weight}
-            onChange={(e) => setNewExercise({ ...newExercise, weight: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Rest (sec)"
-            value={newExercise.rest}
-            onChange={(e) => setNewExercise({ ...newExercise, rest: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Time (min)"
-            value={newExercise.time}
-            onChange={(e) => setNewExercise({ ...newExercise, time: e.target.value })}
-          />
-          <input
-            type="number"
-            placeholder="Distance (km)"
-            value={newExercise.distance}
-            onChange={(e) => setNewExercise({ ...newExercise, distance: e.target.value })}
-          />
-          <input
-            type="text"
-            placeholder="Note"
-            value={newExercise.note}
-            onChange={(e) => setNewExercise({ ...newExercise, note: e.target.value })}
-          />
-          <button type="submit">Add</button>
-        </form>
-      )}
+      <h3>{session.name}</h3>
 
       <div className="session__exercises">
-        {exercises.map((exercise) => (
-          <Exercise key={exercise.id} exercise={exercise} />
+        {session.exercises.map((ex) => (
+          <Exercise key={ex.id} {...ex} />
         ))}
 
-        <button onClick={() => setShowForm(!showForm)} className="session__exercises-button">
+        <button ref={buttonRef} onClick={openModal} className="session__exercises-button">
           <FontAwesomeIcon icon={faPlus} className="session__exercises-button--icon" />
-          {showForm ? 'Cancel' : 'Create exercise'}
         </button>
       </div>
+      <ExerciseCreator
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        onCreate={handleAdd}
+        position={modalPosition}
+      />
     </div>
   );
 }

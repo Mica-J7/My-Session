@@ -1,8 +1,6 @@
 import './exercise.scss';
 
-function Exercise({ exercise }) {
-  const { name, sets, reps, weight, rest, distance, time, note } = exercise;
-
+function Exercise({ name, sets, reps, weight, rest, time, distance, note }) {
   const hasValue = (value) => value !== null && value !== undefined && value !== '' && value !== 0;
 
   return (

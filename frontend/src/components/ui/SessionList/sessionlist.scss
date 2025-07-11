@@ -10,16 +10,16 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background-color: #4caf50;
+    background-color: #1bad20;
     color: white;
     border: none;
-    padding: 10px 16px;
+    padding: 10px 16px 10px 11px;
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #45a049; // un vert un peu plus foncé au survol
+      background-color: #137516;
     }
     &--icon {
       font-size: 20px;

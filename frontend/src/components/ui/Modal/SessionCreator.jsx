@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Modal from 'react-modal';
 import './session-creator.scss';
 
-function SessionCreator({ isOpen, onRequestClose, onCreate }) {
+function SessionCreator({ isOpen, onRequestClose, onCreate, position }) {
   const [sessionName, setSessionName] = useState('');
 
   const handleCreate = () => {
@@ -25,8 +25,14 @@ function SessionCreator({ isOpen, onRequestClose, onCreate }) {
       contentLabel="Create session"
       className="session-creator"
       overlayClassName="session-creator__overlay"
+      style={{
+        content: {
+          top: `${position.top}px`,
+          left: `${position.left}px`,
+        },
+      }}
     >
-      <h2>New session</h2>
+      <h2>New session :</h2>
       <input
         type="text"
         placeholder="Enter session name"

@@ -1,0 +1,18 @@
+.exercise-creator {
+  position: absolute;
+  top: var(--top, 100px);
+  left: var(--left, 100px);
+  width: 300px;
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1000;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.exercise-creator__overlay {
+  background: none;
+}
