@@ -5,7 +5,7 @@ function Exercise({ name, sets, reps, weight, rest, time, distance, note }) {
 
   return (
     <div className="exercise">
-      <h4 className="exercise__title">{name} :</h4>
+      <h4 className="exercise__title">{name}</h4>
       <div className="exercise__content">
         {(hasValue(sets) || hasValue(reps)) && (
           <p>

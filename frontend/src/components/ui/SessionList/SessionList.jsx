@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './sessionlist.scss';
 import Session from '../Session/Session.jsx';
-import SessionCreator from '../Modal/SessionCreator.jsx';
+import SessionCreator from '../Modals/SessionCreator.jsx';
 
 function SessionList() {
   const [sessions, setSessions] = useState([]);

@@ -2,7 +2,7 @@ import Modal from 'react-modal';
 import { useState, useEffect } from 'react';
 import './exercise-creator.scss';
 
-function ExerciseCreator({ isOpen, onRequestClose, onCreate, position }) {
+function ExerciseCreator({ isOpen, onRequestClose, onCreate }) {
   const [exercise, setExercise] = useState({
     name: '',
     sets: '',
@@ -56,12 +56,6 @@ function ExerciseCreator({ isOpen, onRequestClose, onCreate, position }) {
       contentLabel="Ajouter un exercice"
       className="exercise-creator"
       overlayClassName="exercise-creator__overlay"
-      style={{
-        content: {
-          top: `${position.top}px`,
-          left: `${position.left}px`,
-        },
-      }}
     >
       <h2>Add exercise :</h2>
 

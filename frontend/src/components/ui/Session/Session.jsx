@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import ExerciseCreator from '../Modal/ExerciseCreator.jsx';
+import ExerciseCreator from '../Modals/ExerciseCreator.jsx';
 import Exercise from '../Exercise/Exercise.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -29,7 +29,7 @@ function Session({ session, onAddExercise }) {
 
   return (
     <div className="session">
-      <h3>{session.name}</h3>
+      <h3 className="session__title">{session.name} :</h3>
 
       <div className="session__exercises">
         {session.exercises.map((ex) => (

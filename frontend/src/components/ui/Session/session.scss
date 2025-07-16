@@ -5,6 +5,10 @@
   background-color: azure;
   &__title {
     margin: 0 0 10px 0;
+    background-color: #f9c74f;
+    display: inline-block; /* ← ça ajuste la largeur au contenu */
+    padding: 0.3em 0.6em;
+    border-radius: 6px;
   }
   &__exercises {
     display: grid;
@@ -17,14 +21,15 @@
       background-color: #1bad20;
       color: white;
       border: none;
-      border-radius: 20px 20px 10px 3px;
+      border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
       font-size: 1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 80px;
-      height: 80px;
+      width: 50px;
+      height: 50px;
+      margin-left: 30px;
       transition: background-color 0.3s ease;
       &:hover {
         background-color: #137516;
