@@ -7,19 +7,19 @@ exports.createExercise = (req, res, next) => {
   });
   exercise
     .save()
-    .then(() => res.status(201).json({ message: 'Exercise enregistrée !' }))
+    .then(() => res.status(201).json({ message: 'Exercise saved successfully !' }))
     .catch((error) => res.status(400).json({ error }));
 };
 
 exports.modifyExercise = (req, res, next) => {
   Exercise.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-    .then(() => res.status(200).json({ message: 'Exercise modifiée !' }))
+    .then(() => res.status(200).json({ message: 'Exercise updated successfully !' }))
     .catch((error) => res.status(400).json({ error }));
 };
 
 exports.deleteExercise = (req, res, next) => {
   Exercise.deleteOne({ _id: req.params.id })
-    .then(() => res.status(200).json({ message: 'Exercise supprimée !' }))
+    .then(() => res.status(200).json({ message: 'Exercise deleted !' }))
     .catch((error) => res.status(400).json({ error }));
 };
 
