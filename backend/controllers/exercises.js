@@ -1,3 +1,4 @@
+const Session = require('../models/Session');
 const Exercise = require('../models/Exercise');
 
 exports.createExercise = (req, res, next) => {
@@ -9,6 +10,32 @@ exports.createExercise = (req, res, next) => {
     .save()
     .then(() => res.status(201).json({ message: 'Exercise saved successfully !' }))
     .catch((error) => res.status(400).json({ error }));
+};
+
+exports.addExerciseToSession = async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const exerciseData = req.body;
+
+    const newExercise = new Exercise(exerciseData);
+    await newExercise.save();
+
+    const session = await Session.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+
+    session.exercises.push(newExercise._id);
+    await session.save();
+
+    res.status(201).json({
+      message: 'Exercise added to session!',
+      exercise: newExercise,
+      session,
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
 exports.modifyExercise = (req, res, next) => {

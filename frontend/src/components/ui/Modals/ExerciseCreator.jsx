@@ -2,7 +2,7 @@ import Modal from 'react-modal';
 import { useState, useEffect } from 'react';
 import './exercise-creator.scss';
 
-function ExerciseCreator({ isOpen, onRequestClose, onCreate }) {
+function ExerciseCreator({ isOpen, onRequestClose, onCreate, sessionId }) {
   const [exercise, setExercise] = useState({
     name: '',
     sets: '',
@@ -34,19 +34,41 @@ function ExerciseCreator({ isOpen, onRequestClose, onCreate }) {
     setExercise((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = () => {
-    onCreate(exercise);
-    setExercise({
-      name: '',
-      sets: '',
-      reps: '',
-      weight: '',
-      rest: '',
-      time: '',
-      distance: '',
-      note: '',
-    });
-    onRequestClose();
+  const handleSubmit = async () => {
+    if (!sessionId) {
+      console.error('Pas de sessionId fourni !');
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:3000/api/exercises/sessions/${sessionId}/exercises`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(exercise),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      console.log('Exercice ajouté à la session !');
+      onCreate(sessionId, data.exercise);
+      setExercise({
+        name: '',
+        sets: '',
+        reps: '',
+        weight: '',
+        rest: '',
+        time: '',
+        distance: '',
+        note: '',
+      });
+      onRequestClose();
+    } catch (err) {
+      console.error("Erreur lors de l'ajout de l'exercice à la session :", err.message);
+    }
   };
 
   return (

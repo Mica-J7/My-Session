@@ -5,10 +5,21 @@ import './session-creator.scss';
 function SessionCreator({ isOpen, onRequestClose, onCreate }) {
   const [sessionName, setSessionName] = useState('');
 
-  const handleCreate = () => {
-    if (sessionName.trim()) {
-      onCreate(sessionName.trim());
-      setSessionName('');
+  const handleCreate = async () => {
+    const res = await fetch('http://localhost:3000/api/sessions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({ name: sessionName }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      onCreate(data.session); // <- cette ligne est essentielle
+    } else {
+      console.error('Erreur lors de la création :', data.message);
     }
     onRequestClose();
   };
@@ -24,7 +35,7 @@ function SessionCreator({ isOpen, onRequestClose, onCreate }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // ⚠️ Important !
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(sessionData),
       });
@@ -47,6 +58,7 @@ function SessionCreator({ isOpen, onRequestClose, onCreate }) {
     >
       <h2>New session :</h2>
       <input
+        id="sessionNameInput"
         type="text"
         placeholder="Enter session name"
         value={sessionName}
@@ -56,7 +68,9 @@ function SessionCreator({ isOpen, onRequestClose, onCreate }) {
         <button
           onClick={() => {
             handleCreate();
-            createSession();
+            if (sessionName.trim()) {
+              createSession({ name: sessionName.trim() });
+            }
           }}
         >
           Create
