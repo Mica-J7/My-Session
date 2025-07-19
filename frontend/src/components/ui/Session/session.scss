@@ -3,6 +3,7 @@
   padding: 10px 20px 20px 20px;
   border-radius: 10px;
   background-color: azure;
+
   &__title {
     margin: 0 0 10px 0;
     background-color: #f9c74f;
@@ -10,6 +11,7 @@
     padding: 0.3em 0.6em;
     border-radius: 6px;
   }
+
   &__exercises {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -17,6 +19,7 @@
     grid-auto-rows: minmax(100px, auto);
     justify-content: center;
     align-items: center;
+
     &-button {
       background-color: #1bad20;
       color: white;
@@ -31,9 +34,11 @@
       height: 50px;
       margin-left: 30px;
       transition: background-color 0.3s ease;
+
       &:hover {
         background-color: #137516;
       }
+
       &--icon {
         font-size: 30px;
       }

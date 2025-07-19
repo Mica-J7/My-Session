@@ -17,7 +17,7 @@ function SessionCreator({ isOpen, onRequestClose, onCreate }) {
 
     const data = await res.json();
     if (res.ok) {
-      onCreate(data.session); // <- cette ligne est essentielle
+      onCreate(data.session);
     } else {
       console.error('Erreur lors de la création :', data.message);
     }
@@ -27,25 +27,6 @@ function SessionCreator({ isOpen, onRequestClose, onCreate }) {
   const handleClose = () => {
     setSessionName('');
     onRequestClose();
-  };
-
-  const createSession = async (sessionData) => {
-    try {
-      const res = await fetch('http://localhost:3000/api/sessions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(sessionData),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
-      console.log('Session enregistrée :', data);
-    } catch (err) {
-      console.error('Erreur lors de la création de la session :', err.message);
-    }
   };
 
   return (
@@ -68,9 +49,6 @@ function SessionCreator({ isOpen, onRequestClose, onCreate }) {
         <button
           onClick={() => {
             handleCreate();
-            if (sessionName.trim()) {
-              createSession({ name: sessionName.trim() });
-            }
           }}
         >
           Create

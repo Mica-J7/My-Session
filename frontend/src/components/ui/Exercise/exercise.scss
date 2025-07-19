@@ -2,14 +2,39 @@
   padding: 10px;
   border-radius: 5px;
   background-color: antiquewhite;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
   &__title {
-    margin: 0 5px 10px 5px;
+    font-size: 20px;
+    margin: 0;
     white-space: nowrap;
   }
+
+  &__buttons {
+    display: flex;
+    gap: 10px;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+
+    &__icon {
+      color: #333;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  }
+
   &__content p {
     margin: 7px;
     white-space: nowrap;
   }
+
   &__content--note {
     overflow: hidden;
     text-overflow: ellipsis;
