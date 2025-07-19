@@ -3,7 +3,7 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import './exercise.scss';
 
-function Exercise({ name, sets, reps, weight, rest, time, distance, note }) {
+function Exercise({ name, sets, reps, weight, rest, time, distance, note, sessionId, exercise, onEditExercise }) {
   const hasValue = (value) => value !== null && value !== undefined && value !== '' && value !== 0;
 
   return (
@@ -11,7 +11,7 @@ function Exercise({ name, sets, reps, weight, rest, time, distance, note }) {
       <div className="exercise__header">
         <h4 className="exercise__title">{name}</h4>
         <div className="exercise__buttons">
-          <button className="exercise__buttons">
+          <button onClick={() => onEditExercise(sessionId, exercise)} className="exercise__buttons">
             <FontAwesomeIcon icon={faPenToSquare} className="exercise__buttons__icon" />
           </button>
           <button className="exercise__buttons">

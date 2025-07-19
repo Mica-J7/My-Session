@@ -11,6 +11,7 @@ function SessionList() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedSessionId, setSelectedSessionId] = useState(null);
   const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
+  const [exerciseToEdit, setExerciseToEdit] = useState(null);
   const buttonRef = useRef(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const MODAL_HEIGHT = 200;
@@ -45,8 +46,27 @@ function SessionList() {
     setSessions(updatedSessions);
   };
 
+  const handleUpdateExercise = (sessionId, updatedExercise) => {
+    const updatedSessions = sessions.map((session) => {
+      if (session._id === sessionId) {
+        return {
+          ...session,
+          exercises: session.exercises.map((ex) => (ex._id === updatedExercise._id ? updatedExercise : ex)),
+        };
+      }
+      return session;
+    });
+    setSessions(updatedSessions);
+  };
+
   const handleOpenExerciseModal = (sessionId) => {
     setSelectedSessionId(sessionId);
+    setExerciseModalOpen(true);
+  };
+
+  const handleEditExercise = (sessionId, exercise) => {
+    setSelectedSessionId(sessionId);
+    setExerciseToEdit(exercise);
     setExerciseModalOpen(true);
   };
 
@@ -61,6 +81,7 @@ function SessionList() {
             session={session}
             onAddExercise={handleAddExercise}
             onOpenExerciseModal={handleOpenExerciseModal}
+            onEditExercise={handleEditExercise}
           />
         ))}
 
@@ -78,9 +99,15 @@ function SessionList() {
 
         <ExerciseCreator
           isOpen={exerciseModalOpen}
-          onRequestClose={() => setExerciseModalOpen(false)}
+          onRequestClose={() => {
+            setExerciseModalOpen(false);
+            setExerciseToEdit(null);
+          }}
           onCreate={handleAddExercise}
+          onUpdate={handleUpdateExercise}
           sessionId={selectedSessionId}
+          mode={exerciseToEdit ? 'edit' : 'create'}
+          initialExerciseData={exerciseToEdit}
         />
       </div>
     </div>

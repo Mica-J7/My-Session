@@ -3,7 +3,7 @@ const router = express.Router();
 const exercisesCtrl = require('../controllers/exercises');
 
 router.post('/sessions/:sessionId/exercises', exercisesCtrl.addExerciseToSession);
-router.put('/:id', exercisesCtrl.modifyExercise);
+router.put('/:id', exercisesCtrl.updateExercise);
 router.delete('/:id', exercisesCtrl.deleteExercise);
 router.get('/:id', exercisesCtrl.getOneExercise);
 router.get('/', exercisesCtrl.getAllExercises);

@@ -38,10 +38,22 @@ exports.addExerciseToSession = async (req, res) => {
   }
 };
 
-exports.modifyExercise = (req, res, next) => {
-  Exercise.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-    .then(() => res.status(200).json({ message: 'Exercise updated successfully !' }))
-    .catch((error) => res.status(400).json({ error }));
+exports.updateExercise = async (req, res) => {
+  try {
+    const updatedExercise = await Exercise.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+    if (!updatedExercise) {
+      return res.status(404).json({ message: 'Exercice non trouvé' });
+    }
+
+    res.status(200).json({
+      updatedExercise,
+      message: 'Exercise updated successfully !',
+    });
+  } catch (error) {
+    console.error('Error in updateExercise :', error);
+    res.status(500).json({ message: 'Server error during an exercise update.' });
+  }
 };
 
 exports.deleteExercise = (req, res, next) => {
