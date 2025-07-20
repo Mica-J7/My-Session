@@ -12,16 +12,45 @@ exports.createSession = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.modifySession = (req, res, next) => {
-  Session.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-    .then(() => res.status(200).json({ message: 'Session updated successfully !' }))
-    .catch((error) => res.status(400).json({ error }));
+exports.updateSession = async (req, res) => {
+  try {
+    const sessionId = req.params.id;
+    const updatedSession = await Session.findByIdAndUpdate(
+      sessionId,
+      { name: req.body.name }, // on ne modifie que le titre
+      { new: true },
+    );
+
+    if (!updatedSession) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+
+    res.status(200).json({ message: 'Session updated', session: updatedSession });
+  } catch (err) {
+    console.error('Session update failed :', err);
+    res.status(500).json({ message: err.message });
+  }
 };
 
-exports.deleteSession = (req, res, next) => {
-  Session.deleteOne({ _id: req.params.id })
-    .then(() => res.status(200).json({ message: 'Session deleted !' }))
-    .catch((error) => res.status(400).json({ error }));
+exports.deleteSession = async (req, res) => {
+  try {
+    const session = await Session.findById(req.params.id);
+
+    if (!session) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+
+    // Supprimer tous les exercices liés à cette session
+    await Exercise.deleteMany({ _id: { $in: session.exercises } });
+
+    // Supprimer la session elle-même
+    await Session.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: 'Session and associated exercises deleted' });
+  } catch (err) {
+    console.error('Erreur lors de la suppression de la session :', err);
+    res.status(500).json({ message: err.message });
+  }
 };
 
 exports.getSession = (req, res, next) => {

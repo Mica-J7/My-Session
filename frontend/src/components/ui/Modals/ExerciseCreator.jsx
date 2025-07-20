@@ -58,13 +58,13 @@ function ExerciseCreator({
         body: JSON.stringify(exercise),
       });
       const data = await res.json();
-      console.log('Données retournées par le PUT :', data);
+      console.log('Exercise successfully updated !');
       if (!res.ok) throw new Error(data.message);
       onUpdate(sessionId, data.updatedExercise, data.message);
       onRequestClose();
     } else {
       if (!sessionId) {
-        console.error('Pas de sessionId fourni !');
+        console.error('sessionId not provided.');
         return;
       }
 
@@ -81,7 +81,7 @@ function ExerciseCreator({
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
 
-        console.log('Exercice ajouté à la session !');
+        console.log('Exercise successfuly added to session !');
         onCreate(sessionId, data.exercise);
         setExercise({
           name: '',
@@ -95,7 +95,8 @@ function ExerciseCreator({
         });
         onRequestClose();
       } catch (err) {
-        console.error("Erreur lors de l'ajout de l'exercice à la session :", err.message);
+        console.error('Failed to add exercise :', err.message);
+        onRequestClose();
       }
     }
   };
@@ -104,7 +105,7 @@ function ExerciseCreator({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel="Ajouter un exercice"
+      contentLabel="Add an erxercise"
       className="exercise-creator"
       overlayClassName="exercise-creator__overlay"
     >

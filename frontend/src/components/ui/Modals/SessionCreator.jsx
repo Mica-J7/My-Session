@@ -1,26 +1,58 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import './session-creator.scss';
 
-function SessionCreator({ isOpen, onRequestClose, onCreate }) {
+function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initialSessionData }) {
   const [sessionName, setSessionName] = useState('');
 
-  const handleCreate = async () => {
-    const res = await fetch('http://localhost:3000/api/sessions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({ name: sessionName }),
-    });
+  // Détecter si on est en mode édition ou création
+  const isEditing = !!initialSessionData;
 
-    const data = await res.json();
-    if (res.ok) {
-      onCreate(data.session);
+  useEffect(() => {
+    // Si on édite, on pré-remplit le champ
+    if (initialSessionData) {
+      setSessionName(initialSessionData.name);
     } else {
-      console.error('Erreur lors de la création :', data.message);
+      setSessionName('');
     }
+  }, [initialSessionData]);
+
+  const handleSubmit = async () => {
+    if (isEditing) {
+      // Mode édition
+      const updatedSession = {
+        ...initialSessionData,
+        name: sessionName,
+      };
+
+      try {
+        await onEditSession(updatedSession); // La fonction se trouve dans ton parent
+      } catch (err) {
+        console.error('Erreur lors de la modification :', err.message);
+      }
+    } else {
+      // Mode création
+      try {
+        const res = await fetch('http://localhost:3000/api/sessions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({ name: sessionName }),
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          onCreate(data.session);
+        } else {
+          console.error('Erreur lors de la création :', data.message);
+        }
+      } catch (err) {
+        console.error('Erreur réseau :', err.message);
+      }
+    }
+
     onRequestClose();
   };
 
@@ -33,26 +65,20 @@ function SessionCreator({ isOpen, onRequestClose, onCreate }) {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel="Create session"
+      contentLabel={isEditing ? 'Edit session' : 'Create session'}
       className="session-creator"
       overlayClassName="session-creator__overlay"
     >
-      <h2>New session :</h2>
+      <h2>{isEditing ? 'Edit session :' : 'New session :'}</h2>
       <input
         id="sessionNameInput"
         type="text"
         placeholder="Enter session name"
-        value={sessionName}
+        value={sessionName ?? ''} // ← ici on évite qu’il soit "undefined"
         onChange={(e) => setSessionName(e.target.value)}
       />
       <div>
-        <button
-          onClick={() => {
-            handleCreate();
-          }}
-        >
-          Create
-        </button>
+        <button onClick={handleSubmit}>{isEditing ? 'Edit' : 'Create'}</button>
         <button onClick={handleClose}>Cancel</button>
       </div>
     </Modal>

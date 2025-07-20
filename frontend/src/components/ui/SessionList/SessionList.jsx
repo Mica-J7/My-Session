@@ -9,14 +9,16 @@ import ExerciseCreator from '../Modals/ExerciseCreator.jsx';
 function SessionList() {
   const [sessions, setSessions] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [editingSession, setEditingSession] = useState(false);
   const [selectedSessionId, setSelectedSessionId] = useState(null);
+  const [sessionToEdit, setSessionToEdit] = useState(null);
   const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
   const [exerciseToEdit, setExerciseToEdit] = useState(null);
   const buttonRef = useRef(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const MODAL_HEIGHT = 200;
 
-  const openModal = () => {
+  const openSessionModal = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       setModalPosition({
@@ -27,9 +29,52 @@ function SessionList() {
     setModalIsOpen(true);
   };
 
+  const editSessionModal = (sessionId, session) => {
+    setSelectedSessionId(sessionId); // si tu t’en sers ailleurs
+    setSessionToEdit(session); // pour pré-remplir le formulaire
+    setEditingSession(true); // mode "édition"
+    setModalIsOpen(true); // on affiche la modale
+  };
+
+  const handleOpenExerciseModal = (sessionId) => {
+    setSelectedSessionId(sessionId);
+    setExerciseModalOpen(true);
+  };
+
+  const handleEditExerciseModal = (sessionId, exercise) => {
+    setSelectedSessionId(sessionId);
+    setExerciseToEdit(exercise);
+    setExerciseModalOpen(true);
+  };
+
   const handleAddSession = (newSessionFromApi) => {
     setSessions([...sessions, newSessionFromApi]);
     setModalIsOpen(false);
+  };
+
+  const handleEditSession = async (updatedSessionData) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/sessions/${updatedSessionData._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(updatedSessionData),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      // Actualiser localement la liste de sessions
+      setSessions((prev) => prev.map((s) => (s._id === data.session._id ? data.session : s)));
+
+      setModalIsOpen(false);
+      setSessionToEdit(null);
+      setEditingSession(false);
+    } catch (err) {
+      console.error('Session update failed :', err.message);
+    }
   };
 
   const handleAddExercise = (sessionId, exerciseData) => {
@@ -59,15 +104,29 @@ function SessionList() {
     setSessions(updatedSessions);
   };
 
-  const handleOpenExerciseModal = (sessionId) => {
-    setSelectedSessionId(sessionId);
-    setExerciseModalOpen(true);
-  };
+  const handleDeleteExercise = async (sessionId, exerciseId) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/exercises/${exerciseId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || 'Suppression failed.');
+      }
 
-  const handleEditExercise = (sessionId, exercise) => {
-    setSelectedSessionId(sessionId);
-    setExerciseToEdit(exercise);
-    setExerciseModalOpen(true);
+      setSessions((prevSessions) =>
+        prevSessions.map((session) =>
+          session._id === sessionId
+            ? { ...session, exercises: session.exercises.filter((ex) => ex._id !== exerciseId) }
+            : session,
+        ),
+      );
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -79,21 +138,30 @@ function SessionList() {
           <Session
             key={session._id}
             session={session}
+            onEditSession={editSessionModal}
             onAddExercise={handleAddExercise}
             onOpenExerciseModal={handleOpenExerciseModal}
-            onEditExercise={handleEditExercise}
+            onEditExercise={handleEditExerciseModal}
+            onDeleteExercise={handleDeleteExercise}
           />
         ))}
 
-        <button ref={buttonRef} className="session-list__button" onClick={openModal}>
+        <button ref={buttonRef} className="session-list__button" onClick={openSessionModal}>
           <FontAwesomeIcon icon={faPlus} className="session-list__button--icon" />
           <span>New session</span>
         </button>
 
         <SessionCreator
           isOpen={modalIsOpen}
-          onRequestClose={() => setModalIsOpen(false)}
+          onRequestClose={() => {
+            setModalIsOpen(false);
+            setSessionToEdit(null);
+            setEditingSession(false);
+          }}
           onCreate={handleAddSession}
+          onEditSession={handleEditSession}
+          mode={editingSession ? 'edit' : 'create'}
+          initialSessionData={sessionToEdit}
           position={modalPosition}
         />
 

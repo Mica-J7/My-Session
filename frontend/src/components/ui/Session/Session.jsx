@@ -1,16 +1,34 @@
 import Exercise from '../Exercise/Exercise.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import './session.scss';
 
-function Session({ session, onOpenExerciseModal, onEditExercise }) {
+function Session({ session, sessionId, onEditSession, onOpenExerciseModal, onEditExercise, onDeleteExercise }) {
   return (
     <div className="session">
-      <h3 className="session__title">{session.name} :</h3>
-
+      <div className="session__header">
+        <h3 className="session__title">{session.name} :</h3>
+        <div className="session__buttons">
+          <button onClick={() => onEditSession(sessionId, session)} className="session__buttons">
+            <FontAwesomeIcon icon={faPenToSquare} className="session__buttons__icon" />
+          </button>
+          <button className="session__buttons">
+            <FontAwesomeIcon icon={faTrash} className="session__buttons__icon" />
+          </button>
+        </div>
+      </div>
       <div className="session__exercises">
         {session.exercises.map((ex) => (
-          <Exercise key={ex._id} {...ex} exercise={ex} sessionId={session._id} onEditExercise={onEditExercise} />
+          <Exercise
+            key={ex._id}
+            {...ex}
+            exercise={ex}
+            sessionId={session._id}
+            onEditExercise={onEditExercise}
+            onDeleteExercise={onDeleteExercise}
+          />
         ))}
 
         <button onClick={() => onOpenExerciseModal(session._id)} className="session__exercises-button">
