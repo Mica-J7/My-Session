@@ -8,7 +8,7 @@ exports.createExercise = (req, res, next) => {
   });
   exercise
     .save()
-    .then(() => res.status(201).json({ message: 'Exercise saved successfully !' }))
+    .then(() => res.status(201).json({ message: 'Exercise saved' }))
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -29,7 +29,7 @@ exports.addExerciseToSession = async (req, res) => {
     await session.save();
 
     res.status(201).json({
-      message: 'Exercise added to session!',
+      message: 'Exercise added to session',
       exercise: newExercise,
       session,
     });
@@ -43,15 +43,15 @@ exports.updateExercise = async (req, res) => {
     const updatedExercise = await Exercise.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
     if (!updatedExercise) {
-      return res.status(404).json({ message: 'Exercice non trouvé' });
+      return res.status(404).json({ message: 'Exercise not found' });
     }
 
     res.status(200).json({
       updatedExercise,
-      message: 'Exercise updated successfully !',
+      message: 'Exercise updated',
     });
   } catch (error) {
-    console.error('Error in updateExercise :', error);
+    console.error('Error during update :', error);
     res.status(500).json({ message: 'Server error during an exercise update.' });
   }
 };
@@ -65,7 +65,7 @@ exports.deleteExercise = async (req, res, next) => {
 
     await Session.updateOne({ exercises: req.params.id }, { $pull: { exercises: req.params.id } });
 
-    res.status(200).json({ message: 'Exercise deleted successfully' });
+    res.status(200).json({ message: 'Exercise deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

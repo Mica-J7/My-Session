@@ -5,7 +5,15 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import './session.scss';
 
-function Session({ session, sessionId, onEditSession, onOpenExerciseModal, onEditExercise, onDeleteExercise }) {
+function Session({
+  session,
+  sessionId,
+  onEditSession,
+  onDeleteSession,
+  onOpenExerciseModal,
+  onEditExercise,
+  onDeleteExercise,
+}) {
   return (
     <div className="session">
       <div className="session__header">
@@ -14,7 +22,7 @@ function Session({ session, sessionId, onEditSession, onOpenExerciseModal, onEdi
           <button onClick={() => onEditSession(sessionId, session)} className="session__buttons">
             <FontAwesomeIcon icon={faPenToSquare} className="session__buttons__icon" />
           </button>
-          <button className="session__buttons">
+          <button onClick={() => onDeleteSession(session._id)} className="session__buttons">
             <FontAwesomeIcon icon={faTrash} className="session__buttons__icon" />
           </button>
         </div>

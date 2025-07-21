@@ -7,12 +7,12 @@ exports.signup = (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: 'Email et mot de passe requis' });
+    return res.status(400).json({ message: 'Email and password are required' });
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: 'Format d’email invalide' });
+    return res.status(400).json({ message: 'Invalid email format' });
   }
 
   bcrypt
@@ -24,10 +24,10 @@ exports.signup = (req, res) => {
       });
       user
         .save()
-        .then(() => res.status(201).json({ message: 'Utilisateur créé' }))
+        .then(() => res.status(201).json({ message: 'User created' }))
         .catch((error) => {
           if (error.code === 11000) {
-            res.status(400).json({ error: 'Cet email est déjà utilisé' });
+            res.status(400).json({ error: 'This email is already in use' });
           } else {
             res.status(500).json({ error });
           }
@@ -40,13 +40,13 @@ exports.login = (req, res) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (user === null) {
-        res.status(401).json({ message: 'Paire identifiant/mot de passe incorrecte' });
+        res.status(401).json({ message: 'Invalid email/password combination' });
       } else {
         bcrypt
           .compare(req.body.password, user.password)
           .then((valid) => {
             if (!valid) {
-              res.status(401).json({ message: 'Paire identifiant/mot de passe incorrecte' });
+              res.status(401).json({ message: 'Invalid email/password combination' });
             } else {
               res.status(200).json({
                 userId: user._id,

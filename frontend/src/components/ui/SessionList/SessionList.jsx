@@ -77,6 +77,24 @@ function SessionList() {
     }
   };
 
+  const handleDeleteSession = async (sessionId) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/sessions/${sessionId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.message || 'Suppression failed');
+      }
+      setSessions((prev) => prev.filter((session) => session._id !== sessionId));
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   const handleAddExercise = (sessionId, exerciseData) => {
     const updatedSessions = sessions.map((session) => {
       if (session._id === sessionId) {
@@ -139,6 +157,7 @@ function SessionList() {
             key={session._id}
             session={session}
             onEditSession={editSessionModal}
+            onDeleteSession={handleDeleteSession}
             onAddExercise={handleAddExercise}
             onOpenExerciseModal={handleOpenExerciseModal}
             onEditExercise={handleEditExerciseModal}

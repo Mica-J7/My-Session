@@ -11,6 +11,8 @@ function ExerciseCreator({
   mode = 'create',
   initialExerciseData = null,
 }) {
+  const isEditing = mode === 'edit' && initialExerciseData;
+
   const [exercise, setExercise] = useState(
     initialExerciseData || {
       name: '',
@@ -25,10 +27,20 @@ function ExerciseCreator({
   );
 
   useEffect(() => {
-    if (mode === 'edit' && initialExerciseData) {
-      setExercise(initialExerciseData); // ← garde bien le _id ici
+    if (isEditing && initialExerciseData) {
+      setExercise({
+        _id: initialExerciseData._id,
+        name: initialExerciseData.name ?? '',
+        sets: initialExerciseData.sets ?? '',
+        reps: initialExerciseData.reps ?? '',
+        weight: initialExerciseData.weight ?? '',
+        rest: initialExerciseData.rest ?? '',
+        time: initialExerciseData.time ?? '',
+        distance: initialExerciseData.distance ?? '',
+        note: initialExerciseData.note ?? '',
+      });
     }
-  }, [mode, initialExerciseData]);
+  }, [isEditing, initialExerciseData]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -58,10 +70,10 @@ function ExerciseCreator({
         body: JSON.stringify(exercise),
       });
       const data = await res.json();
-      console.log('Exercise successfully updated !');
       if (!res.ok) throw new Error(data.message);
       onUpdate(sessionId, data.updatedExercise, data.message);
       onRequestClose();
+      console.log('Exercise successfully updated !');
     } else {
       if (!sessionId) {
         console.error('sessionId not provided.');
@@ -109,7 +121,7 @@ function ExerciseCreator({
       className="exercise-creator"
       overlayClassName="exercise-creator__overlay"
     >
-      <h2>Add exercise :</h2>
+      <h2>{isEditing ? 'Edit Exercise' : 'Add Exercise :'}</h2>
 
       <input name="name" value={exercise.name} onChange={handleChange} placeholder="Name" />
       <input name="sets" value={exercise.sets} onChange={handleChange} placeholder="Sets" />
@@ -121,7 +133,7 @@ function ExerciseCreator({
       <textarea name="note" value={exercise.note} onChange={handleChange} placeholder="Note" />
 
       <div>
-        <button onClick={handleSubmit}>Add</button>
+        <button onClick={handleSubmit}>{isEditing ? 'Edit' : 'Add'}</button>
         <button onClick={onRequestClose}>Cancel</button>
       </div>
     </Modal>

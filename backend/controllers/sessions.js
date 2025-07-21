@@ -1,4 +1,5 @@
 const Session = require('../models/Session');
+const Exercise = require('../models/Exercise');
 
 exports.createSession = (req, res, next) => {
   delete req.body._id;
@@ -8,14 +9,14 @@ exports.createSession = (req, res, next) => {
   });
   session
     .save()
-    .then(() => res.status(201).json({ message: 'Session saved successfully !', session }))
+    .then(() => res.status(201).json({ message: 'Session saved', session }))
     .catch((error) => res.status(400).json({ error }));
 };
 
 exports.updateSession = async (req, res) => {
   try {
     const sessionId = req.params.id;
-    const updatedSession = await Session.findByIdAndUpdate(
+    let updatedSession = await Session.findByIdAndUpdate(
       sessionId,
       { name: req.body.name }, // on ne modifie que le titre
       { new: true },
@@ -24,6 +25,8 @@ exports.updateSession = async (req, res) => {
     if (!updatedSession) {
       return res.status(404).json({ message: 'Session not found' });
     }
+
+    updatedSession = await updatedSession.populate('exercises');
 
     res.status(200).json({ message: 'Session updated', session: updatedSession });
   } catch (err) {
@@ -34,21 +37,24 @@ exports.updateSession = async (req, res) => {
 
 exports.deleteSession = async (req, res) => {
   try {
-    const session = await Session.findById(req.params.id);
+    const sessionId = req.params.id;
+
+    // On récupère la session avec ses exercises
+    const session = await Session.findById(sessionId);
 
     if (!session) {
       return res.status(404).json({ message: 'Session not found' });
     }
 
-    // Supprimer tous les exercices liés à cette session
+    // On supprime les exercices liés
     await Exercise.deleteMany({ _id: { $in: session.exercises } });
 
-    // Supprimer la session elle-même
-    await Session.findByIdAndDelete(req.params.id);
+    // Ensuite on supprime la session elle-même
+    await Session.findByIdAndDelete(sessionId);
 
-    res.status(200).json({ message: 'Session and associated exercises deleted' });
+    res.status(200).json({ message: 'Session deleted' });
   } catch (err) {
-    console.error('Erreur lors de la suppression de la session :', err);
+    console.error('Delete session failed:', err);
     res.status(500).json({ message: err.message });
   }
 };
