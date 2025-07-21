@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './sessionlist.scss';
@@ -17,6 +17,32 @@ function SessionList() {
   const buttonRef = useRef(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const MODAL_HEIGHT = 200;
+
+  useEffect(() => {
+    const fetchSessions = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return; // Si pas connecté, on ne fetch pas
+
+      try {
+        const res = await fetch('http://localhost:3000/api/sessions', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error('Unauthorized');
+        }
+
+        const data = await res.json();
+        setSessions(data.sessions);
+      } catch (error) {
+        console.error('Error during session fetch :', error);
+      }
+    };
+
+    fetchSessions();
+  }, []);
 
   const openSessionModal = () => {
     if (buttonRef.current) {

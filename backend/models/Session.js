@@ -6,6 +6,11 @@ const SessionSchema = new Schema({
     type: String,
     required: true,
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
   exercises: [
     {
       type: mongoose.Schema.Types.ObjectId,

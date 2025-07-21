@@ -18,8 +18,8 @@ const app = express();
 // middleware cors installé via npm à la place du cors manuel de base.
 app.use(
   cors({
-    origin: 'http://localhost:5173', // l'adresse de ton front
-    credentials: true, // si tu utilises des tokens ou cookies
+    origin: 'http://localhost:5173', // l'adresse du front
+    credentials: true, // si on utilise des tokens ou cookies
   }),
 );
 

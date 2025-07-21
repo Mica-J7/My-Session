@@ -28,7 +28,7 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
       try {
         await onEditSession(updatedSession); // La fonction se trouve dans ton parent
       } catch (err) {
-        console.error('Erreur lors de la modification :', err.message);
+        console.error('Error during update :', err.message);
       }
     } else {
       // Mode création
@@ -46,10 +46,10 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
         if (res.ok) {
           onCreate(data.session);
         } else {
-          console.error('Erreur lors de la création :', data.message);
+          console.error('You have to be connected to create a Session');
         }
       } catch (err) {
-        console.error('Erreur réseau :', err.message);
+        console.error('Network error :', err.message);
       }
     }
 

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LoginModal from '../ui/Modals/AuthModal';
 import logo from '@/assets/logo/logo.svg';
 import './header.scss';
@@ -8,17 +8,19 @@ function Header() {
   const location = useLocation();
   const isAboutPage = location.pathname === '/about';
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  const handleLogin = (credentials) => {
-    console.log('Connexion avec :', credentials);
-    setIsLoggedIn(true);
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
+    window.location.reload();
   };
 
   return (
@@ -42,7 +44,13 @@ function Header() {
         </ul>
       </nav>
 
-      <LoginModal isOpen={isLoginOpen} onRequestClose={() => setIsLoginOpen(false)} onLogin={handleLogin} />
+      <LoginModal
+        isOpen={isLoginOpen}
+        onRequestClose={() => setIsLoginOpen(false)}
+        onLoginSuccess={() => {
+          setIsLoggedIn(true); // Marque l'utilisateur comme connecté
+        }}
+      />
     </header>
   );
 }

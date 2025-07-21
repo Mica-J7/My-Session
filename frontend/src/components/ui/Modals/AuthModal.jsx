@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './auth-modal.scss';
 
-function AuthModal({ isOpen, onRequestClose, onLogin }) {
+function AuthModal({ isOpen, onRequestClose, onLoginSuccess }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,7 +18,6 @@ function AuthModal({ isOpen, onRequestClose, onLogin }) {
       const res = await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ email, password }),
       });
 
@@ -26,10 +25,13 @@ function AuthModal({ isOpen, onRequestClose, onLogin }) {
       if (!res.ok) throw new Error(data.message);
 
       localStorage.setItem('token', data.token);
-      console.log('Connexion réussie !');
-      onRequestClose();
+      console.log('Successfully logged in');
+
+      onRequestClose(); // Ferme la modale
+      onLoginSuccess?.(); // Recharge les sessions depuis le parent
+      window.location.reload();
     } catch (err) {
-      console.error('Erreur lors de la connexion :', err.message);
+      console.error('Login error', err.message);
     }
   };
 
@@ -51,11 +53,6 @@ function AuthModal({ isOpen, onRequestClose, onLogin }) {
     }
   };
 
-  const handleSubmit = () => {
-    onLogin({ email, password });
-    onRequestClose();
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -63,7 +60,6 @@ function AuthModal({ isOpen, onRequestClose, onLogin }) {
       <h2>Connexion ou inscription :</h2>
 
       <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-
       <input
         type="password"
         placeholder="Mot de passe"
@@ -72,14 +68,7 @@ function AuthModal({ isOpen, onRequestClose, onLogin }) {
       />
 
       <div className="auth-modal__buttons">
-        <button
-          onClick={() => {
-            handleLogin();
-            handleSubmit();
-          }}
-        >
-          Se connecter
-        </button>
+        <button onClick={handleLogin}>Se connecter</button>
         <button onClick={handleSignup}>Créer un compte</button>
       </div>
     </Modal>

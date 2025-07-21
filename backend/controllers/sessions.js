@@ -1,30 +1,40 @@
 const Session = require('../models/Session');
 const Exercise = require('../models/Exercise');
 
-exports.createSession = (req, res, next) => {
-  delete req.body._id;
-  const session = new Session({
-    ...req.body,
-    exercises: [], // initialise le tableau
-  });
-  session
-    .save()
-    .then(() => res.status(201).json({ message: 'Session saved', session }))
-    .catch((error) => res.status(400).json({ error }));
+exports.createSession = async (req, res) => {
+  try {
+    const newSession = new Session({
+      name: req.body.name,
+      exercises: [],
+      userId: req.auth.userId,
+    });
+
+    await newSession.save();
+
+    res.status(201).json({ message: 'Session created', session: newSession });
+  } catch (err) {
+    res.status(500).json({ message: 'Error during session creation' });
+  }
 };
 
 exports.updateSession = async (req, res) => {
   try {
     const sessionId = req.params.id;
+
+    const session = await Session.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+
+    if (session.userId.toString() !== req.auth.userId) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
     let updatedSession = await Session.findByIdAndUpdate(
       sessionId,
       { name: req.body.name }, // on ne modifie que le titre
       { new: true },
     );
-
-    if (!updatedSession) {
-      return res.status(404).json({ message: 'Session not found' });
-    }
 
     updatedSession = await updatedSession.populate('exercises');
 
@@ -46,6 +56,10 @@ exports.deleteSession = async (req, res) => {
       return res.status(404).json({ message: 'Session not found' });
     }
 
+    if (session.userId.toString() !== req.auth.userId) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
     // On supprime les exercices liés
     await Exercise.deleteMany({ _id: { $in: session.exercises } });
 
@@ -59,21 +73,32 @@ exports.deleteSession = async (req, res) => {
   }
 };
 
-exports.getSession = (req, res, next) => {
-  Session.findById(req.params.sessionId)
-    .populate('exercises')
-    .then((session) => {
-      if (!session) {
-        return res.status(404).json({ message: 'Session not found' });
-      }
-      res.status(200).json(session);
-    })
-    .catch((error) => res.status(400).json({ error }));
+exports.getSessionById = async (req, res) => {
+  try {
+    const session = await Session.findById(req.params.sessionId).populate('exercises');
+
+    if (!session) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+
+    // Vérifie que la session appartient bien à l'utilisateur connecté
+    if (session.userId.toString() !== req.auth.userId) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    res.status(200).json(session);
+  } catch (error) {
+    console.error('Error getting session by ID:', error);
+    res.status(500).json({ message: error.message });
+  }
 };
 
-exports.getAllSessions = (req, res, next) => {
-  Session.find()
-    .populate('exercises')
-    .then((sessions) => res.status(200).json(sessions))
-    .catch((error) => res.status(400).json({ error }));
+exports.getAllSessions = async (req, res) => {
+  try {
+    const userId = req.auth.userId; // récupéré depuis le token
+    const sessions = await Session.find({ userId }).populate('exercises');
+    res.status(200).json({ sessions });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
