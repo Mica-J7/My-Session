@@ -73,7 +73,7 @@ function ExerciseCreator({
       if (!res.ok) throw new Error(data.message);
       onUpdate(sessionId, data.updatedExercise, data.message);
       onRequestClose();
-      console.log('Exercise successfully updated !');
+      console.log('Exercise updated');
     } else {
       if (!sessionId) {
         console.error('sessionId not provided.');
@@ -93,7 +93,7 @@ function ExerciseCreator({
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
 
-        console.log('Exercise successfuly added to session !');
+        console.log('Exercise added to session');
         onCreate(sessionId, data.exercise);
         setExercise({
           name: '',

@@ -1,15 +1,26 @@
 const Session = require('../models/Session');
 const Exercise = require('../models/Exercise');
 
-exports.createExercise = (req, res, next) => {
-  delete req.body._id;
-  const exercise = new Exercise({
-    ...req.body,
-  });
-  exercise
-    .save()
-    .then(() => res.status(201).json({ message: 'Exercise saved' }))
-    .catch((error) => res.status(400).json({ error }));
+exports.createExercise = async (req, res) => {
+  try {
+    // Vérifie que la session appartient bien à l'utilisateur
+    const session = await Session.findById(req.body.sessionId);
+    if (!session) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+    if (session.userId.toString() !== req.auth.userId) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    const exercise = new Exercise({
+      ...req.body,
+    });
+    await exercise.save();
+
+    res.status(201).json({ message: 'Exercise created', exercise });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 exports.addExerciseToSession = async (req, res) => {
@@ -20,6 +31,11 @@ exports.addExerciseToSession = async (req, res) => {
     const session = await Session.findById(sessionId);
     if (!session) {
       return res.status(404).json({ message: 'Session not found' });
+    }
+
+    // Vérification que la session appartient bien à l'utilisateur connecté
+    if (session.userId.toString() !== req.auth.userId) {
+      return res.status(403).json({ message: 'Not authorized to add an Exercise in this Session' });
     }
 
     const newExercise = new Exercise(exerciseData);
@@ -40,11 +56,26 @@ exports.addExerciseToSession = async (req, res) => {
 
 exports.updateExercise = async (req, res) => {
   try {
-    const updatedExercise = await Exercise.findByIdAndUpdate(req.params.id, req.body, { new: true });
-
-    if (!updatedExercise) {
+    // On récupère l'exercice
+    const exercise = await Exercise.findById(req.params.id);
+    if (!exercise) {
       return res.status(404).json({ message: 'Exercise not found' });
     }
+
+    // On retrouve sa session
+    const session = await Session.findOne({ exercises: exercise._id });
+
+    if (!session) {
+      return res.status(404).json({ message: 'Session not found' });
+    }
+
+    // On vérifie l'auth
+    if (session.userId.toString() !== req.auth.userId) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    // Update
+    const updatedExercise = await Exercise.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
     res.status(200).json({
       updatedExercise,
@@ -58,27 +89,76 @@ exports.updateExercise = async (req, res) => {
 
 exports.deleteExercise = async (req, res, next) => {
   try {
-    const deletedExercise = await Exercise.findByIdAndDelete(req.params.id);
+    const exerciseId = req.params.id;
+
+    // On cherche la session correspondante
+    const session = await Session.findOne({ exercises: exerciseId });
+
+    if (!session) {
+      return res.status(404).json({ message: 'Exercise not linked to any session' });
+    }
+
+    // On vérifie le userId
+    if (session.userId.toString() !== req.auth.userId) {
+      return res.status(403).json({ message: 'Not authorized to delete this exercise' });
+    }
+
+    // On supprime l'exercice
+    const deletedExercise = await Exercise.findByIdAndDelete(exerciseId);
     if (!deletedExercise) {
       return res.status(404).json({ message: 'Exercise not found' });
     }
 
-    await Session.updateOne({ exercises: req.params.id }, { $pull: { exercises: req.params.id } });
+    // On réaffiche la session sans l'exercice
+    await Session.updateOne({ _id: session._id }, { $pull: { exercises: exerciseId } });
 
     res.status(200).json({ message: 'Exercise deleted' });
   } catch (error) {
+    console.error('Error while deleting exercise:', error);
     res.status(500).json({ message: error.message });
   }
 };
 
-exports.getOneExercise = (req, res, next) => {
-  Exercise.findOne({ _id: req.params.id })
-    .then((exercise) => res.status(200).json(exercise))
-    .catch((error) => res.status(404).json({ error }));
+exports.getOneExercise = async (req, res) => {
+  try {
+    const exerciseId = req.params.id;
+
+    // Trouver la session correspondante
+    const session = await Session.findOne({ exercises: exerciseId });
+
+    if (!session) {
+      return res.status(404).json({ message: 'Exercise not linked to any session' });
+    }
+
+    // Vérifier que l’utilisateur est bien le propriétaire
+    if (session.userId.toString() !== req.auth.userId) {
+      return res.status(403).json({ message: 'Not authorized to access this exercise' });
+    }
+
+    // Récupérer l’exercice
+    const exercise = await Exercise.findById(exerciseId);
+    if (!exercise) {
+      return res.status(404).json({ message: 'Exercise not found' });
+    }
+
+    res.status(200).json(exercise);
+  } catch (error) {
+    console.error('Error while fetching exercise:', error);
+    res.status(500).json({ message: error.message });
+  }
 };
 
-exports.getAllExercises = (req, res, next) => {
-  Exercise.find()
-    .then((exercises) => res.status(200).json(exercises))
-    .catch((error) => res.status(400).json({ error }));
+exports.getAllExercises = async (req, res) => {
+  try {
+    // Récupérer les sessions de l'utilisateur connecté
+    const sessions = await Session.find({ userId: req.auth.userId }).populate('exercises');
+
+    // Extraire tous les exercices
+    const allExercises = sessions.flatMap((session) => session.exercises);
+
+    res.status(200).json(allExercises);
+  } catch (error) {
+    console.error('Error while fetching exercises:', error);
+    res.status(500).json({ message: 'Server error while fetching exercises' });
+  }
 };

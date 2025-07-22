@@ -56,7 +56,7 @@ function SessionList() {
   };
 
   const editSessionModal = (sessionId, session) => {
-    setSelectedSessionId(sessionId); // si tu t’en sers ailleurs
+    setSelectedSessionId(sessionId); // si on s'en sert ailleurs
     setSessionToEdit(session); // pour pré-remplir le formulaire
     setEditingSession(true); // mode "édition"
     setModalIsOpen(true); // on affiche la modale
@@ -111,10 +111,11 @@ function SessionList() {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
+      const data = await res.json();
       if (!res.ok) {
-        const data = await res.json();
         throw new Error(data.message || 'Suppression failed');
       }
+      console.log(data.message);
       setSessions((prev) => prev.filter((session) => session._id !== sessionId));
     } catch (error) {
       console.error(error.message);
@@ -156,11 +157,12 @@ function SessionList() {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
+
+      const data = await res.json();
       if (!res.ok) {
-        const data = await res.json();
         throw new Error(data.message || 'Suppression failed.');
       }
-
+      console.log(data.message);
       setSessions((prevSessions) =>
         prevSessions.map((session) =>
           session._id === sessionId
