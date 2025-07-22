@@ -1,8 +1,12 @@
+@use '@/styles/variables' as *;
+
 .session {
   width: 100%;
   padding: 10px 20px 20px 20px;
-  border-radius: 10px;
-  background-color: azure;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: $color-session;
+  color: $color-text;
 
   &__header {
     display: flex;
@@ -13,9 +17,10 @@
 
   &__title {
     margin: 0;
-    background-color: #f9c74f;
-    padding: 0.3em 0.6em;
-    border-radius: 6px;
+    background-color: $color-exercise;
+    padding: 0.7rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 
   &__buttons {
@@ -40,7 +45,7 @@
     align-items: center;
 
     &-button {
-      background-color: #1bad20;
+      background-color: $color-primary;
       color: white;
       border: none;
       border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
@@ -55,7 +60,7 @@
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: #137516;
+        background-color: $color-secondary;
       }
 
       &--icon {

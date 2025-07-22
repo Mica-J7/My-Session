@@ -11,8 +11,6 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
   useEffect(() => {
     // Si on édite, on pré-remplit le champ
     if (initialSessionData) {
-      setSessionName(initialSessionData.name);
-    } else {
       setSessionName('');
     }
   }, [initialSessionData]);
@@ -73,7 +71,7 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
       <input
         id="sessionNameInput"
         type="text"
-        placeholder="Enter session name"
+        placeholder={isEditing ? 'Edit session name' : 'Enter session name'}
         value={sessionName ?? ''} // ← ici on évite qu’il soit "undefined"
         onChange={(e) => setSessionName(e.target.value)}
       />

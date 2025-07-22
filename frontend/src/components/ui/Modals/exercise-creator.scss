@@ -1,17 +1,73 @@
+@use '@/styles/variables' as *;
+
 .exercise-creator {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
+  width: 20%;
   background: white;
-  border-radius: 8px;
-  padding: 1rem;
+  border-radius: 15px;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
   z-index: 1000;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin: 0;
+  }
+
+  &__form {
+    max-width: 500px;
+    margin: auto;
+    padding: 0.5rem;
+    background-color: white;
+
+    &__group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.5rem;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border 0.2s;
+
+      &:focus {
+        border-color: $color-secondary;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+      }
+    }
+
+    &__btn {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      margin-top: 20px;
+      &--ind {
+        display: flex;
+        justify-content: center;
+        width: 50%;
+        padding: 0.5rem;
+        background-color: $color-primary;
+        color: #fff;
+        font-weight: bold;
+        font-size: 1rem;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+          background-color: darken($color-secondary, 5%);
+        }
+      }
+    }
+  }
 
   @media (max-width: 600px) {
     width: 90vw;

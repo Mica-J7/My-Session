@@ -1,6 +1,8 @@
+@use '@/styles/variables' as *;
+
 .session-list {
   padding: 20px;
-  background-color: blanchedalmond;
+  background-color: $color-main;
   border-radius: 20px;
   box-sizing: border-box;
   &__title {
@@ -10,7 +12,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background-color: #1bad20;
+    background-color: $color-primary;
     color: white;
     border: none;
     padding: 10px 16px 10px 11px;
@@ -19,7 +21,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #137516;
+      background-color: $color-secondary;
     }
     &--icon {
       font-size: 20px;

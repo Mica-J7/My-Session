@@ -1,7 +1,13 @@
+@use '@/styles/variables' as *;
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: $color-header;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
 
   .header__logo {
     display: flex;
@@ -9,26 +15,28 @@ header {
     align-items: center;
 
     img {
-      width: 100px;
+      width: 5rem;
     }
 
     h1 {
       margin: 0;
+      font-size: 20px;
     }
   }
 
   ul {
     display: flex;
     gap: 30px;
-    font-size: 15px;
+    font-size: 1rem;
     list-style: none;
     margin: 0;
     padding: 0;
 
     button {
-      background-color: white;
+      background-color: $color-header;
+      color: white;
       border: none;
-      font-size: 15px;
+      font-size: 1rem;
       padding: 0;
       cursor: pointer;
     }

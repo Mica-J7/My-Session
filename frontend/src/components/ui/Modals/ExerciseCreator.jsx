@@ -121,21 +121,75 @@ function ExerciseCreator({
       className="exercise-creator"
       overlayClassName="exercise-creator__overlay"
     >
-      <h2>{isEditing ? 'Edit Exercise' : 'Add Exercise :'}</h2>
+      <h2>{isEditing ? 'Edit Exercise :' : 'Add Exercise :'}</h2>
 
-      <input name="name" value={exercise.name} onChange={handleChange} placeholder="Name" />
-      <input name="sets" value={exercise.sets} onChange={handleChange} placeholder="Sets" />
-      <input name="reps" value={exercise.reps} onChange={handleChange} placeholder="Reps" />
-      <input name="weight" value={exercise.weight} onChange={handleChange} placeholder="Weight (kg)" />
-      <input name="rest" value={exercise.rest} onChange={handleChange} placeholder="Rest (s)" />
-      <input name="time" value={exercise.time} onChange={handleChange} placeholder="Time (min)" />
-      <input name="distance" value={exercise.distance} onChange={handleChange} placeholder="Distance (km)" />
-      <textarea name="note" value={exercise.note} onChange={handleChange} placeholder="Note" />
+      <form className="exercise-creator__form">
+        <input
+          name="name"
+          value={exercise.name}
+          onChange={handleChange}
+          placeholder="Name"
+          className="exercise-creator__form__group"
+        />
+        <input
+          name="sets"
+          value={exercise.sets}
+          onChange={handleChange}
+          placeholder="Sets"
+          className="exercise-creator__form__group"
+        />
+        <input
+          name="reps"
+          value={exercise.reps}
+          onChange={handleChange}
+          placeholder="Reps"
+          className="exercise-creator__form__group"
+        />
+        <input
+          name="weight"
+          value={exercise.weight}
+          onChange={handleChange}
+          placeholder="Weight (kg)"
+          className="exercise-creator__form__group"
+        />
+        <input
+          name="rest"
+          value={exercise.rest}
+          onChange={handleChange}
+          placeholder="Rest (s)"
+          className="exercise-creator__form__group"
+        />
+        <input
+          name="time"
+          value={exercise.time}
+          onChange={handleChange}
+          placeholder="Time (min)"
+          className="exercise-creator__form__group"
+        />
+        <input
+          name="distance"
+          value={exercise.distance}
+          onChange={handleChange}
+          placeholder="Distance (km)"
+          className="exercise-creator__form__group"
+        />
+        <textarea
+          name="note"
+          value={exercise.note}
+          onChange={handleChange}
+          placeholder="Note"
+          className="exercise-creator__form__group"
+        />
 
-      <div>
-        <button onClick={handleSubmit}>{isEditing ? 'Edit' : 'Add'}</button>
-        <button onClick={onRequestClose}>Cancel</button>
-      </div>
+        <div className="exercise-creator__form__btn">
+          <button className="exercise-creator__form__btn--ind" onClick={handleSubmit}>
+            {isEditing ? 'Edit' : 'Add'}
+          </button>
+          <button className="exercise-creator__form__btn--ind" onClick={onRequestClose}>
+            Cancel
+          </button>
+        </div>
+      </form>
     </Modal>
   );
 }
