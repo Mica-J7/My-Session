@@ -1,3 +1,5 @@
+@use '@/styles/variables' as *;
+
 .auth-modal {
   position: absolute;
   top: 50%;
@@ -9,9 +11,64 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
   z-index: 1000;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin: 0;
+  }
+
+  &__form {
+    max-width: 500px;
+    margin: auto;
+    padding: 0.5rem;
+    background-color: white;
+
+    &__group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.5rem;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border 0.2s;
+
+      &:focus {
+        border-color: $color-secondary;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+      }
+    }
+
+    &__buttons {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      margin-top: 20px;
+
+      &--ind {
+        display: flex;
+        justify-content: center;
+        width: 50%;
+        padding: 0.5rem;
+        background-color: $color-primary;
+        color: #fff;
+        font-weight: bold;
+        font-size: 1rem;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+          background-color: darken($color-secondary, 5%);
+        }
+      }
+    }
+  }
 
   @media (max-width: 600px) {
     width: 90vw;
@@ -21,4 +78,14 @@
     transform: translate(-50%, -50%);
     padding: 1rem;
   }
+}
+
+.auth-modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); // ombre sombre semi-transparente, tu peux ajuster l’opacité
+  z-index: 999; // en dessous de la modale elle-même (1000)
 }

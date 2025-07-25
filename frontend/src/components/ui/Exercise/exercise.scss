@@ -1,17 +1,27 @@
 @use '@/styles/variables' as *;
 
 .exercise {
+  display: flex;
+  flex-direction: column;
   background-color: $color-exercise;
   padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   color: $color-text;
+  height: 250px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $color-primary;
+  }
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   &__title {
@@ -42,8 +52,16 @@
   }
 
   &__content--note {
+    display: -webkit-box;
+    display: box; // version standard (optionnelle)
+    -webkit-box-orient: vertical;
+    box-orient: vertical; // version standard (optionnelle)
     overflow: hidden;
     text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3; // version standard recommandée
+    line-height: 1.4em; // ou adapte selon ta police
+    max-height: calc(1.4em * 3); // 3 lignes max visuellement
     color: #888;
     font-style: italic;
     margin: 7px;

@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import './exercise.scss';
 
@@ -20,13 +19,10 @@ function Exercise({
   const hasValue = (value) => value !== null && value !== undefined && value !== '' && value !== 0;
 
   return (
-    <div className="exercise">
+    <div onClick={() => onEditExercise(sessionId, exercise)} className="exercise" title="Update">
       <div className="exercise__header">
         <h4 className="exercise__title">{name}</h4>
         <div className="exercise__buttons">
-          <button onClick={() => onEditExercise(sessionId, exercise)} className="exercise__buttons">
-            <FontAwesomeIcon icon={faPenToSquare} className="exercise__buttons__icon" />
-          </button>
           <button onClick={() => onDeleteExercise(sessionId, exercise._id)} className="exercise__buttons">
             <FontAwesomeIcon icon={faTrash} className="exercise__buttons__icon" />
           </button>

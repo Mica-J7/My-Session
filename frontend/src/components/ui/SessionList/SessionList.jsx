@@ -176,8 +176,8 @@ function SessionList() {
   };
 
   return (
-    <div className="session-list">
-      <h1 className="session-list__title">All sessions :</h1>
+    <section className="session-list">
+      <h2 className="session-list__title">All sessions :</h2>
 
       <div className="session-list__grid">
         {sessions.map((session) => (
@@ -225,7 +225,7 @@ function SessionList() {
           initialExerciseData={exerciseToEdit}
         />
       </div>
-    </div>
+    </section>
   );
 }
 

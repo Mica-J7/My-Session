@@ -108,7 +108,6 @@ function ExerciseCreator({
         onRequestClose();
       } catch (err) {
         console.error('Failed to add exercise :', err.message);
-        onRequestClose();
       }
     }
   };
@@ -123,66 +122,67 @@ function ExerciseCreator({
     >
       <h2>{isEditing ? 'Edit Exercise :' : 'Add Exercise :'}</h2>
 
-      <form className="exercise-creator__form">
-        <input
-          name="name"
-          value={exercise.name}
-          onChange={handleChange}
-          placeholder="Name"
-          className="exercise-creator__form__group"
-        />
-        <input
-          name="sets"
-          value={exercise.sets}
-          onChange={handleChange}
-          placeholder="Sets"
-          className="exercise-creator__form__group"
-        />
-        <input
-          name="reps"
-          value={exercise.reps}
-          onChange={handleChange}
-          placeholder="Reps"
-          className="exercise-creator__form__group"
-        />
-        <input
-          name="weight"
-          value={exercise.weight}
-          onChange={handleChange}
-          placeholder="Weight (kg)"
-          className="exercise-creator__form__group"
-        />
-        <input
-          name="rest"
-          value={exercise.rest}
-          onChange={handleChange}
-          placeholder="Rest (s)"
-          className="exercise-creator__form__group"
-        />
-        <input
-          name="time"
-          value={exercise.time}
-          onChange={handleChange}
-          placeholder="Time (min)"
-          className="exercise-creator__form__group"
-        />
-        <input
-          name="distance"
-          value={exercise.distance}
-          onChange={handleChange}
-          placeholder="Distance (km)"
-          className="exercise-creator__form__group"
-        />
-        <textarea
-          name="note"
-          value={exercise.note}
-          onChange={handleChange}
-          placeholder="Note"
-          className="exercise-creator__form__group"
-        />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+        autoComplete="off"
+        className="exercise-creator__form"
+      >
+        <div className="exercise-creator__form__group">
+          <label for="name">Name :</label>
+          <input name="name" id="name" value={exercise.name} onChange={handleChange} />
+        </div>
+
+        <div className="exercise-creator__form__group">
+          <label for="sets">Sets :</label>
+          <input name="sets" id="sets" value={exercise.sets} onChange={handleChange} />
+        </div>
+
+        <div className="exercise-creator__form__group">
+          <label for="reps">Reps :</label>
+          <input name="reps" id="reps" value={exercise.reps} onChange={handleChange} />
+        </div>
+
+        <div className="exercise-creator__form__group">
+          <label for="weight">Weight :</label>
+          <input name="weight" id="weight" value={exercise.weight} onChange={handleChange} />
+          <span>kg</span>
+        </div>
+
+        <div className="exercise-creator__form__group">
+          <label for="rest">Rest :</label>
+          <input name="rest" id="rest" value={exercise.rest} onChange={handleChange} />
+          <span>s</span>
+        </div>
+
+        <div className="exercise-creator__form__group">
+          <label for="time">Time :</label>
+          <input name="time" id="time" value={exercise.time} onChange={handleChange} />
+          <span>min</span>
+        </div>
+
+        <div className="exercise-creator__form__group">
+          <label for="distance">Distance :</label>
+          <input name="distance" id="distance" value={exercise.distance} onChange={handleChange} />
+          <span>km</span>
+        </div>
+
+        <div className="exercise-creator__form__group">
+          <label for="note">Note :</label>
+          <textarea
+            name="note"
+            id="note"
+            value={exercise.note}
+            onChange={handleChange}
+            placeholder="60 characters max"
+            maxLength="60"
+          />
+        </div>
 
         <div className="exercise-creator__form__btn">
-          <button className="exercise-creator__form__btn--ind" onClick={handleSubmit}>
+          <button type="submit" className="exercise-creator__form__btn--ind">
             {isEditing ? 'Edit' : 'Add'}
           </button>
           <button className="exercise-creator__form__btn--ind" onClick={onRequestClose}>

@@ -17,7 +17,9 @@ function Session({
   return (
     <div className="session">
       <div className="session__header">
-        <h3 className="session__title">{session.name} :</h3>
+        <h3 className="session__title" onClick={() => onEditSession(sessionId, session)}>
+          {session.name} :
+        </h3>
         <div className="session__buttons">
           <button onClick={() => onEditSession(sessionId, session)} className="session__buttons">
             <FontAwesomeIcon icon={faPenToSquare} className="session__buttons__icon" />
@@ -39,9 +41,12 @@ function Session({
           />
         ))}
 
-        <button onClick={() => onOpenExerciseModal(session._id)} className="session__exercises-button">
-          <FontAwesomeIcon icon={faPlus} className="session__exercises-button--icon" />
-        </button>
+        <div onClick={() => onOpenExerciseModal(session._id)} className="session__exercises__card">
+          <button className="session__exercises__card-button">
+            <FontAwesomeIcon icon={faPlus} className="session__exercises__card-button--icon" />
+          </button>
+          <p>Add Exercise</p>
+        </div>
       </div>
     </div>
   );

@@ -1,13 +1,16 @@
 @use '@/styles/variables' as *;
 
 .session-list {
-  padding: 20px;
+  min-height: 60vh;
+  padding: 20px 30px;
   background-color: $color-main;
   border-radius: 20px;
-  box-sizing: border-box;
+
   &__title {
+    font-size: 2rem;
     margin-top: 0;
   }
+
   &__button {
     display: inline-flex;
     align-items: center;
@@ -15,18 +18,22 @@
     background-color: $color-primary;
     color: white;
     border: none;
+    margin-left: 20px;
     padding: 10px 16px 10px 11px;
     border-radius: 6px;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
+
     &:hover {
       background-color: $color-secondary;
     }
+
     &--icon {
       font-size: 20px;
     }
   }
+
   &__grid {
     display: flex;
     flex-wrap: wrap;

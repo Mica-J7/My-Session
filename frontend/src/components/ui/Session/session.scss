@@ -18,9 +18,15 @@
   &__title {
     margin: 0;
     background-color: $color-exercise;
-    padding: 0.7rem;
+    padding: 0.3rem 0.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $color-primary;
+    }
   }
 
   &__buttons {
@@ -38,13 +44,38 @@
   }
   &__exercises {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     grid-gap: 20px;
     grid-auto-rows: minmax(100px, auto);
     justify-content: center;
     align-items: center;
 
-    &-button {
+    &__card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: $color-exercise;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      color: $color-text;
+      height: 250px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      p {
+        font-weight: 600;
+      }
+
+      &:hover {
+        background-color: $color-primary;
+        color: white;
+      }
+    }
+
+    &__card-button {
       background-color: $color-primary;
       color: white;
       border: none;
@@ -56,11 +87,9 @@
       justify-content: center;
       width: 50px;
       height: 50px;
-      margin-left: 30px;
-      transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: $color-secondary;
+        border: solid 1px white;
       }
 
       &--icon {

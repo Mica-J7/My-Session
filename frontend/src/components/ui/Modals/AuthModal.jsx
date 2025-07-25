@@ -46,31 +46,49 @@ function AuthModal({ isOpen, onRequestClose, onLoginSuccess }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
 
-      console.log('Inscription réussie !');
+      console.log('Signup successful');
       onRequestClose();
     } catch (err) {
-      console.error('Erreur lors de l’inscription :', err.message);
+      console.error('Signup error :', err.message);
     }
   };
 
   if (!isOpen) return null;
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="auth-modal">
-      <h2>Connexion ou inscription :</h2>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      className="auth-modal"
+      overlayClassName="auth-modal__overlay"
+    >
+      <h2>Login / Signup :</h2>
 
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input
-        type="password"
-        placeholder="Mot de passe"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <form onSubmit={(e) => e.preventDefault()} className="auth-modal__form">
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="exercise-creator__form__group"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="exercise-creator__form__group"
+        />
 
-      <div className="auth-modal__buttons">
-        <button onClick={handleLogin}>Se connecter</button>
-        <button onClick={handleSignup}>Créer un compte</button>
-      </div>
+        <div className="auth-modal__form__buttons">
+          <button type="button" onClick={handleLogin} className="auth-modal__form__buttons--ind">
+            Login
+          </button>
+          <button type="button" onClick={handleSignup} className="auth-modal__form__buttons--ind">
+            Signup
+          </button>
+        </div>
+      </form>
     </Modal>
   );
 }

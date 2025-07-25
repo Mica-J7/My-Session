@@ -5,7 +5,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 20%;
+  width: 90%;
+  max-width: 350px;
+  min-width: 300px;
   background: white;
   border-radius: 15px;
   padding: 0.5rem;
@@ -21,33 +23,50 @@
   }
 
   &__form {
-    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 100%;
     margin: auto;
     padding: 0.5rem;
     background-color: white;
 
     &__group {
       display: flex;
-      flex-direction: column;
-      margin-bottom: 0.5rem;
-      padding: 0.8rem 1rem;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: border 0.2s;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
 
-      &:focus {
-        border-color: $color-secondary;
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+      input,
+      textarea {
+        width: 70%;
+        max-width: 90%;
+        margin-bottom: 0.5rem;
+        padding: 0.8rem 1rem;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border 0.2s;
+
+        &:focus {
+          border-color: $color-secondary;
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        @media (max-width: 600px) {
+          padding: 0.5rem 0.5rem;
+        }
       }
     }
 
     &__btn {
       display: flex;
       gap: 10px;
-      width: 100%;
-      margin-top: 20px;
+      width: 80%;
+      margin-top: 0.5rem;
+
       &--ind {
         display: flex;
         justify-content: center;
@@ -66,19 +85,26 @@
           background-color: darken($color-secondary, 5%);
         }
       }
+      @media (max-width: 600px) {
+        padding: 0.5rem 0.5rem;
+        margin-top: 0;
+      }
+    }
+    @media (max-width: 600px) {
+      padding: 0;
     }
   }
-
   @media (max-width: 600px) {
-    width: 90vw;
-    height: auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 1rem;
+    width: 60%;
   }
 }
 
 .exercise-creator__overlay {
-  background: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); // ombre sombre semi-transparente, tu peux ajuster l’opacité
+  z-index: 999; // en dessous de la modale elle-même (1000)
 }
