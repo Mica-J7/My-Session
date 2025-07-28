@@ -2,7 +2,7 @@
 
 .session {
   width: 100%;
-  padding: 10px 20px 20px 20px;
+  padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   background-color: $color-session;
@@ -42,6 +42,7 @@
       cursor: pointer;
     }
   }
+
   &__exercises {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -50,7 +51,7 @@
     justify-content: center;
     align-items: center;
 
-    &__card {
+    &__create-card {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -73,9 +74,13 @@
         background-color: $color-primary;
         color: white;
       }
+
+      &:hover .session__exercises__create-card-button {
+        border: solid 1px white;
+      }
     }
 
-    &__card-button {
+    &__create-card-button {
       background-color: $color-primary;
       color: white;
       border: none;

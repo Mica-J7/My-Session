@@ -11,26 +11,53 @@
     margin-top: 0;
   }
 
-  &__button {
-    display: inline-flex;
+  &__create-card {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 8px;
-    background-color: $color-primary;
-    color: white;
-    border: none;
-    margin-left: 20px;
-    padding: 10px 16px 10px 11px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: $color-session;
+    color: $color-text;
     transition: background-color 0.3s ease;
+    cursor: pointer;
 
     &:hover {
-      background-color: $color-secondary;
+      background-color: $color-primary;
+      color: white;
     }
 
-    &--icon {
-      font-size: 20px;
+    &:hover .session-list__create-card__button {
+      border: solid 1px white;
+    }
+
+    &__button {
+      background-color: $color-primary;
+      color: white;
+      border: none;
+      border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+
+      &--icon {
+        font-size: 30px;
+      }
+
+      &:hover {
+        border: solid 1px white;
+      }
+    }
+
+    p {
+      font-weight: 600;
     }
   }
 

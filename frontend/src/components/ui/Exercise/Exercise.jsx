@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import './exercise.scss';
@@ -18,16 +19,42 @@ function Exercise({
 }) {
   const hasValue = (value) => value !== null && value !== undefined && value !== '' && value !== 0;
 
+  const [isHovered, setIsHovered] = useState(false);
+  const [isOnButton, setIsOnButton] = useState(false);
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setIsOnButton(false); // au cas où
+  };
+
+  const handleButtonEnter = () => setIsOnButton(true);
+  const handleButtonLeave = () => setIsOnButton(false);
+
   return (
-    <div onClick={() => onEditExercise(sessionId, exercise)} className="exercise" title="Update">
+    <div
+      className={`exercise ${isHovered && !isOnButton ? 'exercise--hovered' : ''}`}
+      onClick={() => onEditExercise(sessionId, exercise)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      title="Update"
+    >
       <div className="exercise__header">
         <h4 className="exercise__title">{name}</h4>
-        <div className="exercise__buttons">
-          <button onClick={() => onDeleteExercise(sessionId, exercise._id)} className="exercise__buttons">
-            <FontAwesomeIcon icon={faTrash} className="exercise__buttons__icon" />
-          </button>
-        </div>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeleteExercise(sessionId, exercise._id);
+          }}
+          onMouseEnter={handleButtonEnter}
+          onMouseLeave={handleButtonLeave}
+          className="exercise__buttons"
+          title="Delete"
+        >
+          <FontAwesomeIcon icon={faTrash} className="exercise__buttons__icon" />
+        </button>
       </div>
+
       <div className="exercise__content">
         {(hasValue(sets) || hasValue(reps)) && (
           <p>

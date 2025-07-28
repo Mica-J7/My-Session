@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './sessionlist.scss';
@@ -14,9 +14,6 @@ function SessionList() {
   const [sessionToEdit, setSessionToEdit] = useState(null);
   const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
   const [exerciseToEdit, setExerciseToEdit] = useState(null);
-  const buttonRef = useRef(null);
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-  const MODAL_HEIGHT = 200;
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -45,13 +42,6 @@ function SessionList() {
   }, []);
 
   const openSessionModal = () => {
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setModalPosition({
-        top: rect.top + rect.height / 2 - MODAL_HEIGHT / 2 + window.scrollY,
-        left: rect.left + rect.width + 16, // 16px de marge vers la droite
-      });
-    }
     setModalIsOpen(true);
   };
 
@@ -193,10 +183,12 @@ function SessionList() {
           />
         ))}
 
-        <button ref={buttonRef} className="session-list__button" onClick={openSessionModal}>
-          <FontAwesomeIcon icon={faPlus} className="session-list__button--icon" />
-          <span>New session</span>
-        </button>
+        <div className="session-list__create-card" onClick={openSessionModal}>
+          <button className="session-list__create-card__button">
+            <FontAwesomeIcon icon={faPlus} className="session-list__create-card__button--icon" />
+          </button>
+          <p>New session</p>
+        </div>
 
         <SessionCreator
           isOpen={modalIsOpen}
@@ -209,7 +201,6 @@ function SessionList() {
           onEditSession={handleEditSession}
           mode={editingSession ? 'edit' : 'create'}
           initialSessionData={sessionToEdit}
-          position={modalPosition}
         />
 
         <ExerciseCreator

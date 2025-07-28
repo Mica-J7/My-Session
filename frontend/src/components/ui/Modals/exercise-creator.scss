@@ -25,23 +25,22 @@
   &__form {
     display: flex;
     flex-direction: column;
-
+    align-items: center;
     width: 100%;
     max-width: 100%;
     margin: auto;
-    padding: 0.5rem;
+    padding: 1rem 1.5rem;
     background-color: white;
 
     &__group {
       display: flex;
-      flex-direction: row;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
 
       input,
       textarea {
-        width: 70%;
-        max-width: 90%;
+        width: 100%;
+
         margin-bottom: 0.5rem;
         padding: 0.8rem 1rem;
         border: 1px solid #ccc;
@@ -82,7 +81,7 @@
         transition: background 0.2s;
 
         &:hover {
-          background-color: darken($color-secondary, 5%);
+          background-color: $color-secondary;
         }
       }
       @media (max-width: 600px) {
@@ -107,4 +106,27 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5); // ombre sombre semi-transparente, tu peux ajuster l’opacité
   z-index: 999; // en dessous de la modale elle-même (1000)
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  width: 70%;
+
+  input {
+    width: 100%;
+    padding-right: 2.5rem; // laisse de la place à l’unité
+    box-sizing: border-box;
+  }
+
+  .unit {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+    font-size: 0.9rem;
+  }
 }

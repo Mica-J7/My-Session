@@ -41,9 +41,9 @@ function Session({
           />
         ))}
 
-        <div onClick={() => onOpenExerciseModal(session._id)} className="session__exercises__card">
-          <button className="session__exercises__card-button">
-            <FontAwesomeIcon icon={faPlus} className="session__exercises__card-button--icon" />
+        <div onClick={() => onOpenExerciseModal(session._id)} className="session__exercises__create-card">
+          <button className="session__exercises__create-card-button">
+            <FontAwesomeIcon icon={faPlus} className="session__exercises__create-card-button--icon" />
           </button>
           <p>Add Exercise</p>
         </div>

@@ -131,54 +131,71 @@ function ExerciseCreator({
         className="exercise-creator__form"
       >
         <div className="exercise-creator__form__group">
-          <label for="name">Name :</label>
-          <input name="name" id="name" value={exercise.name} onChange={handleChange} />
+          <label htmlFor="name">Name :</label>
+          <div className="input-wrapper">
+            <input type="text" name="name" id="name" value={exercise.name} onChange={handleChange} />
+          </div>
         </div>
 
         <div className="exercise-creator__form__group">
-          <label for="sets">Sets :</label>
-          <input name="sets" id="sets" value={exercise.sets} onChange={handleChange} />
+          <label htmlFor="sets">Sets :</label>
+          <div className="input-wrapper">
+            <input type="text" name="sets" id="sets" value={exercise.sets} onChange={handleChange} />
+          </div>
         </div>
 
         <div className="exercise-creator__form__group">
-          <label for="reps">Reps :</label>
-          <input name="reps" id="reps" value={exercise.reps} onChange={handleChange} />
+          <label htmlFor="reps">Reps :</label>
+          <div className="input-wrapper">
+            <input type="text" name="reps" id="reps" value={exercise.reps} onChange={handleChange} />
+          </div>
         </div>
 
         <div className="exercise-creator__form__group">
-          <label for="weight">Weight :</label>
-          <input name="weight" id="weight" value={exercise.weight} onChange={handleChange} />
-          <span>kg</span>
+          <label htmlFor="weight">Weight :</label>
+          <div className="input-wrapper">
+            <input type="text" name="weight" id="weight" value={exercise.weight} onChange={handleChange} />
+            <span className="unit">kg</span>
+          </div>
         </div>
 
         <div className="exercise-creator__form__group">
-          <label for="rest">Rest :</label>
-          <input name="rest" id="rest" value={exercise.rest} onChange={handleChange} />
-          <span>s</span>
+          <label htmlFor="rest">Rest :</label>
+          <div className="input-wrapper">
+            <input type="text" name="rest" id="rest" value={exercise.rest} onChange={handleChange} />
+            <span className="unit">s</span>
+          </div>
         </div>
 
         <div className="exercise-creator__form__group">
-          <label for="time">Time :</label>
-          <input name="time" id="time" value={exercise.time} onChange={handleChange} />
-          <span>min</span>
+          <label htmlFor="time">Time :</label>
+          <div className="input-wrapper">
+            <input type="text" name="time" id="time" value={exercise.time} onChange={handleChange} />
+            <span className="unit">min</span>
+          </div>
         </div>
 
         <div className="exercise-creator__form__group">
-          <label for="distance">Distance :</label>
-          <input name="distance" id="distance" value={exercise.distance} onChange={handleChange} />
-          <span>km</span>
+          <label htmlFor="distance">Distance :</label>
+          <div className="input-wrapper">
+            <input type="text" name="distance" id="distance" value={exercise.distance} onChange={handleChange} />
+            <span className="unit">km</span>
+          </div>
         </div>
 
         <div className="exercise-creator__form__group">
-          <label for="note">Note :</label>
-          <textarea
-            name="note"
-            id="note"
-            value={exercise.note}
-            onChange={handleChange}
-            placeholder="60 characters max"
-            maxLength="60"
-          />
+          <label htmlFor="note">Note :</label>
+          <div className="input-wrapper">
+            <textarea
+              type="text"
+              name="note"
+              id="note"
+              value={exercise.note}
+              onChange={handleChange}
+              placeholder="60 characters max"
+              maxLength="60"
+            />
+          </div>
         </div>
 
         <div className="exercise-creator__form__btn">
