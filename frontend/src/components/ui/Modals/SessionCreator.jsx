@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import './session-creator.scss';
 
 function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initialSessionData }) {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [sessionName, setSessionName] = useState('');
 
   // Détecter si on est en mode édition ou création
@@ -31,7 +32,7 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
     } else {
       // Mode création
       try {
-        const res = await fetch('http://localhost:3000/api/sessions', {
+        const res = await fetch(`${apiUrl}/api/sessions`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

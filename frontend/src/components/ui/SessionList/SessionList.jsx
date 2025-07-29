@@ -15,13 +15,15 @@ function SessionList() {
   const [exerciseModalOpen, setExerciseModalOpen] = useState(false);
   const [exerciseToEdit, setExerciseToEdit] = useState(null);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchSessions = async () => {
       const token = localStorage.getItem('token');
       if (!token) return; // Si pas connecté, on ne fetch pas
 
       try {
-        const res = await fetch('http://localhost:3000/api/sessions', {
+        const res = await fetch(`${apiUrl}/api/sessions`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +41,7 @@ function SessionList() {
     };
 
     fetchSessions();
-  }, []);
+  }, [apiUrl]);
 
   const openSessionModal = () => {
     setModalIsOpen(true);
@@ -70,7 +72,7 @@ function SessionList() {
 
   const handleEditSession = async (updatedSessionData) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/sessions/${updatedSessionData._id}`, {
+      const res = await fetch(`${apiUrl}/api/sessions/${updatedSessionData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +97,7 @@ function SessionList() {
 
   const handleDeleteSession = async (sessionId) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/sessions/${sessionId}`, {
+      const res = await fetch(`${apiUrl}/api/sessions/${sessionId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -141,7 +143,7 @@ function SessionList() {
 
   const handleDeleteExercise = async (sessionId, exerciseId) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/exercises/${exerciseId}`, {
+      const res = await fetch(`${apiUrl}/api/exercises/${exerciseId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,

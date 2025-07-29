@@ -3,6 +3,8 @@ import Modal from 'react-modal';
 import './auth-modal.scss';
 
 function AuthModal({ isOpen, onRequestClose, onLoginSuccess }) {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -15,7 +17,7 @@ function AuthModal({ isOpen, onRequestClose, onLoginSuccess }) {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/auth/login', {
+      const res = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -37,7 +39,7 @@ function AuthModal({ isOpen, onRequestClose, onLoginSuccess }) {
 
   const handleSignup = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/auth/signup', {
+      const res = await fetch(`${apiUrl}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

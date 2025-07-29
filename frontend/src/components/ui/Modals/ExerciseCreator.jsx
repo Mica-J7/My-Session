@@ -11,6 +11,7 @@ function ExerciseCreator({
   mode = 'create',
   initialExerciseData = null,
 }) {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const isEditing = mode === 'edit' && initialExerciseData;
 
   const [exercise, setExercise] = useState(
@@ -64,7 +65,7 @@ function ExerciseCreator({
 
   const handleSubmit = async () => {
     if (mode === 'edit') {
-      const res = await fetch(`http://localhost:3000/api/exercises/${exercise._id}`, {
+      const res = await fetch(`${apiUrl}/api/exercises/${exercise._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify(exercise),
@@ -81,7 +82,7 @@ function ExerciseCreator({
       }
 
       try {
-        const res = await fetch(`http://localhost:3000/api/exercises/sessions/${sessionId}/exercises`, {
+        const res = await fetch(`${apiUrl}/api/exercises/sessions/${sessionId}/exercises`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

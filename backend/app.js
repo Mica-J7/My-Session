@@ -16,10 +16,22 @@ mongoose
 const app = express();
 
 // middleware cors installé via npm à la place du cors manuel de base.
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://192.168.1.20:5173', // ajoute l’IP du front sur le réseau local
+];
+
 app.use(
   cors({
-    origin: 'http://localhost:5173', // l'adresse du front
-    credentials: true, // si on utilise des tokens ou cookies
+    origin: function (origin, callback) {
+      // autorise les requêtes avec origine présente dans la liste ou sans origine (postman, curl)
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true, // si on utilise cookies ou auth avec credentials
   }),
 );
 
