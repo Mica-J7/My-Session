@@ -37,8 +37,7 @@
       justify-content: space-between;
       align-items: center;
 
-      input,
-      textarea {
+      input {
         width: 100%;
         margin-bottom: 0.5rem;
         padding: 0.8rem 1rem;
@@ -46,7 +45,6 @@
         border-radius: 10px;
         font-size: 1rem;
         transition: border 0.3s;
-        resize: none;
 
         &:focus {
           border-color: $color-secondary;

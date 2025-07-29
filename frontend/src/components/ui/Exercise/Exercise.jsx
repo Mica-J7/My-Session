@@ -71,7 +71,7 @@ function Exercise({
         {hasValue(distance) && <p>Distance : {distance} km</p>}
         {hasValue(note) && (
           <div className="exercise__content--note">
-            <strong>Note :</strong> {note}
+            <strong>Note :</strong> <div style={{ whiteSpace: 'pre-wrap' }}>{exercise.note}</div>
           </div>
         )}
       </div>

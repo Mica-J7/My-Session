@@ -1,5 +1,6 @@
 import Modal from 'react-modal';
 import { useState, useEffect } from 'react';
+import MyTextareaComponent from '@/components/ui/TextArea/TextArea.jsx';
 import './exercise-creator.scss';
 
 function ExerciseCreator({
@@ -185,18 +186,7 @@ function ExerciseCreator({
         </div>
 
         <div className="exercise-creator__form__group">
-          <label htmlFor="note">Note :</label>
-          <div className="input-wrapper">
-            <textarea
-              type="text"
-              name="note"
-              id="note"
-              value={exercise.note}
-              onChange={handleChange}
-              placeholder="60 characters max"
-              maxLength="60"
-            />
-          </div>
+          <MyTextareaComponent value={exercise.note} onChange={handleChange} />
         </div>
 
         <div className="exercise-creator__form__btn">

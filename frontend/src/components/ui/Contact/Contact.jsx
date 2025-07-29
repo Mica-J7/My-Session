@@ -10,7 +10,7 @@ function Contact() {
         <label htmlFor="email">Email :</label>
         <input type="email" name="email" id="email" autoComplete="off" />
         <label htmlFor="message">Message :</label>
-        <textarea name="message" id="message" cols="30" rows="5" />
+        <textarea name="message" id="message" cols="30" rows="4" maxLength="200" />
         <button className="contact__section__form__button" type="submit">
           Send
         </button>
