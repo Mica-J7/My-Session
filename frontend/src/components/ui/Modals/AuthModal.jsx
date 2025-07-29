@@ -67,19 +67,14 @@ function AuthModal({ isOpen, onRequestClose, onLoginSuccess }) {
       <h2>Login / Signup :</h2>
 
       <form onSubmit={(e) => e.preventDefault()} className="auth-modal__form">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="exercise-creator__form__group"
-        />
+        <input type="email" name="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+
         <input
           type="password"
+          name="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="exercise-creator__form__group"
         />
 
         <div className="auth-modal__form__buttons">

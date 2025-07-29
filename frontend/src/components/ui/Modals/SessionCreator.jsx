@@ -69,17 +69,24 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
       overlayClassName="session-creator__overlay"
     >
       <h2>{isEditing ? 'Edit session :' : 'New session :'}</h2>
-      <input
-        id="sessionNameInput"
-        type="text"
-        placeholder={isEditing ? 'Edit session name' : 'Enter session name'}
-        value={sessionName ?? ''} // ← ici on évite qu’il soit "undefined"
-        onChange={(e) => setSessionName(e.target.value)}
-      />
-      <div>
-        <button onClick={handleSubmit}>{isEditing ? 'Edit' : 'Create'}</button>
-        <button onClick={handleClose}>Cancel</button>
-      </div>
+
+      <form onSubmit={(e) => e.preventDefault()} className="session-creator__form">
+        <input
+          id="sessionNameInput"
+          type="text"
+          placeholder={isEditing ? 'Edit session name' : 'Enter session name'}
+          value={sessionName ?? ''} // ← ici on évite qu’il soit "undefined"
+          onChange={(e) => setSessionName(e.target.value)}
+        />
+        <div className="session-creator__form__buttons">
+          <button onClick={handleSubmit} className="session-creator__form__buttons--ind">
+            {isEditing ? 'Edit' : 'Create'}
+          </button>
+          <button onClick={handleClose} className="session-creator__form__buttons--ind">
+            Cancel
+          </button>
+        </div>
+      </form>
     </Modal>
   );
 }
