@@ -169,7 +169,7 @@ function SessionList() {
 
   return (
     <section className="session-list">
-      <h2 className="session-list__title">All sessions :</h2>
+      <h2 className="session-list__title">Sessions :</h2>
 
       <div className="session-list__grid">
         {sessions.map((session) => (
@@ -189,7 +189,7 @@ function SessionList() {
           <button className="session-list__create-card__button">
             <FontAwesomeIcon icon={faPlus} className="session-list__create-card__button--icon" />
           </button>
-          <p>New session</p>
+          <p>Create session</p>
         </div>
 
         <SessionCreator

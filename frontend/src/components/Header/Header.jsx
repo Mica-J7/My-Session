@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Banner from '@/components/ui/Banner/Banner.jsx';
 import LoginModal from '../ui/Modals/AuthModal';
 import logo from '@/assets/logo/logo.svg';
 import './header.scss';
@@ -49,8 +48,6 @@ function Header() {
           </ul>
         </nav>
       </div>
-
-      <Banner />
 
       <LoginModal
         isOpen={isLoginOpen}

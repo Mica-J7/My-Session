@@ -1,14 +1,16 @@
 @use '@/styles/variables' as *;
 
 .session-list {
+  width: 95%;
   min-height: 60vh;
-  padding: 20px 30px;
+  margin: auto;
+  padding: 15px 30px 30px 30px;
   background-color: $color-main;
   border-radius: 20px;
 
   &__title {
     font-size: 2rem;
-    margin-top: 0;
+    margin: 0 0 15px 0;
   }
 
   &__create-card {
@@ -41,17 +43,17 @@
       color: white;
       border: 1px solid transparent;
       border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-      font-size: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 50px;
+      min-width: 50px;
       height: 50px;
       transition: border-color 1s ease;
       cursor: pointer;
 
       &--icon {
-        font-size: 30px;
+        font-size: 2rem;
       }
     }
 
@@ -65,7 +67,8 @@
     flex-wrap: wrap;
     gap: 20px;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
+    width: 100%;
     border-radius: 0;
   }
 }

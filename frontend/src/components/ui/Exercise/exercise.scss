@@ -8,7 +8,8 @@
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   color: $color-text;
-  height: 250px;
+  min-height: 200px;
+  max-height: 300px;
   overflow: hidden;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -21,7 +22,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 0;
   }
 
   &__title {
@@ -65,6 +66,6 @@
     max-height: calc(1.4em * 3); // 3 lignes max visuellement
     color: #888;
     font-style: italic;
-    margin: 7px;
+    margin: 15px 7px 0 7px;
   }
 }

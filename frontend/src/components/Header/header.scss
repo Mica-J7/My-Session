@@ -12,7 +12,8 @@ header {
     align-items: center;
     background-color: $color-header;
     color: white;
-    padding: 20px;
+    padding: 25px;
+    border-radius: 0 0 8px 8px;
 
     &__logo {
       justify-self: start;
@@ -61,8 +62,8 @@ header {
         }
       }
     }
-    @media (max-width: 600px) {
-      padding: 5px 8px;
+    @media (max-width: 1180px) {
+      border-radius: 0;
     }
   }
 }

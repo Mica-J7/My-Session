@@ -47,7 +47,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     grid-gap: 20px;
-    grid-auto-rows: minmax(100px, auto);
+    grid-auto-rows: minmax(50px, auto);
     justify-content: center;
     align-items: center;
 
@@ -80,6 +80,15 @@
       &:hover .session__exercises__create-card-button {
         border: solid 1px white;
       }
+
+      @media (max-width: 600px) {
+        flex-direction: row;
+        gap: 20px;
+        height: 60px;
+        width: 70%;
+        padding: 10px;
+        margin: auto;
+      }
     }
 
     &__create-card-button {
@@ -87,11 +96,11 @@
       color: white;
       border: 1px solid transparent;
       border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-      font-size: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 50px;
+      min-width: 50px;
       height: 50px;
       transition: border-color 1s ease;
       cursor: pointer;
