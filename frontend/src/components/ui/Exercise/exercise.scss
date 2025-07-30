@@ -56,13 +56,15 @@
     }
   }
 
-  &__content p {
-    margin: 7px;
+  &__content p,
+  strong {
+    margin: 0 7px 10px 7px;
     white-space: nowrap;
   }
 
   &__content--note {
     display: flex;
+    align-items: start;
     gap: 10px;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -1,28 +1,23 @@
 import './textarea.scss';
 
-function MyTextareaComponent({ value, onChange }) {
-  const maxLength = 60;
-
+function TextArea({ name, id, value, onChange, rows, maxLength, className = '' }) {
   return (
-    <div className="wrapper">
-      <label htmlFor="note">Note :</label>
-      <div>
-        <textarea
-          name="note"
-          id="note"
-          value={value}
-          onChange={onChange}
-          rows={3}
-          style={{ resize: 'none' }}
-          maxLength={60}
-          placeholder="60 characters max"
-        />
-        <div className="char-counter">
-          {value.length} / {maxLength}
-        </div>
+    <div>
+      <textarea
+        name={`${name}`}
+        id={`${id}`}
+        value={value}
+        onChange={onChange}
+        rows={rows}
+        maxLength={maxLength}
+        placeholder={`${maxLength} characters max`}
+        className={`textarea-base ${className}`}
+      />
+      <div className="char-counter">
+        {value.length} / {maxLength}
       </div>
     </div>
   );
 }
 
-export default MyTextareaComponent;
+export default TextArea;

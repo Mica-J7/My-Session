@@ -58,6 +58,18 @@
       }
     }
 
+    &__textarea {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      margin-top: 7px;
+      white-space: nowrap;
+
+      &__style {
+        resize: none;
+      }
+    }
+
     &__btn {
       display: flex;
       gap: 10px;

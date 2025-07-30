@@ -10,7 +10,6 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
   const isEditing = !!initialSessionData;
 
   useEffect(() => {
-    // Si on édite, on pré-remplit le champ
     if (initialSessionData) {
       setSessionName('');
     }
@@ -25,7 +24,7 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
       };
 
       try {
-        await onEditSession(updatedSession); // La fonction se trouve dans ton parent
+        await onEditSession(updatedSession); // La fonction se trouve dans le parent
       } catch (err) {
         console.error('Error during update :', err.message);
       }
@@ -53,6 +52,7 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
     }
 
     onRequestClose();
+    setSessionName('');
   };
 
   const handleClose = () => {
@@ -77,6 +77,7 @@ function SessionCreator({ isOpen, onRequestClose, onCreate, onEditSession, initi
           placeholder={isEditing ? 'Edit session name' : 'Enter session name'}
           value={sessionName ?? ''} // ← ici on évite qu’il soit "undefined"
           onChange={(e) => setSessionName(e.target.value)}
+          autoComplete="off"
         />
         <div className="session-creator__form__buttons">
           <button onClick={handleSubmit} className="session-creator__form__buttons--ind">

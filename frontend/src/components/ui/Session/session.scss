@@ -106,8 +106,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 50px;
       min-width: 50px;
-      min-height: 50px;
+      height: 50px;
       transition: border-color 1s ease;
       cursor: pointer;
 
@@ -116,7 +117,7 @@
       }
 
       &--icon {
-        font-size: 30px;
+        font-size: 2rem;
       }
     }
   }

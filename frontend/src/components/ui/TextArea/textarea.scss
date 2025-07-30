@@ -1,36 +1,27 @@
 @use '@/styles/variables' as *;
 
-.wrapper {
-  display: flex;
-  white-space: nowrap;
-  gap: 45px;
-  margin-top: 5px;
+.textarea-base {
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: border 0.3s;
 
-  #note {
-    width: 100%;
-    margin-bottom: 0.2rem;
-    padding: 0.5rem 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: border 0.3s;
-    resize: none;
-
-    &:focus {
-      border-color: $color-secondary;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-    }
-
-    @media (max-width: 600px) {
-      padding: 0.5rem 0.5rem;
-    }
+  &:focus {
+    border-color: $color-secondary;
+    outline: none;
+    box-shadow: 0 0 0 1px rgba(74, 144, 226, 0.2);
   }
 
-  .char-counter {
-    text-align: center;
-    font-size: 0.8rem;
-    color: #666;
-    margin-bottom: 0.3rem;
+  @media (max-width: 600px) {
+    padding: 0.5rem 0.5rem;
   }
+}
+
+.char-counter {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.5rem;
 }
